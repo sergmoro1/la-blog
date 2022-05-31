@@ -1,0 +1,6 @@
+FROM node:15.11-alpine
+
+WORKDIR /app
+
+#RUN npm i -g @vue/cli-service @vue/compiler-sfc && \
+#    npm rebuild node-sass

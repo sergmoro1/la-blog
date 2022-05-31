@@ -1,0 +1,21 @@
+FROM php:7.4-cli
+
+WORKDIR /app
+
+COPY ./ /app
+
+ENV TZ "Europe/Moscow"
+
+RUN apt-get update && \
+    apt-get install -y libpq-dev zlib1g-dev libzip-dev zip libxml2-dev && \
+    docker-php-ext-install mysqli pdo pdo_mysql && \
+    apt-get clean && \
+    apt-get autoclean && \
+    apt-get autoremove -y --force-yes && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet
+
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+COPY ./php-cli/default.ini /usr/local/etc/php/conf.d/default.ini
