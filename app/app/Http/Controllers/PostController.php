@@ -20,21 +20,13 @@ class PostController extends Controller
     }
 
     /**
-     * Сохранить новую запись в блоге.
+     * Show the form for editing the specified resource.
      *
-     * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): RedirectResponse
+    public function edit($id)
     {
-        $request->validate([
-            'title' => 'required|unique:posts|max:255',
-            'body' => 'required',
-        ]);
-
-        $post = new Post();
-        $post->create($request);
-
-        return back()->with('success', 'Post created successfully.');
+        //
     }
 }

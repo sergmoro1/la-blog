@@ -34,6 +34,16 @@ class Post extends Model
         'excerpt',
         'content',
     ];
+    
+      /**
+     * The attributes that are auto assignable.
+     *
+     * @var string[]
+     */
+   protected $hidden = [
+        'created_at', 
+        'updated_at',
+    ];
 
     /**
      * Get all tags of the post.
@@ -43,19 +53,5 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'post_tag');
-    }
-
-    /**
-     * Add a post.
-     *
-     * @param  Request $request данные формы
-     * @return boolean
-     */
-    public function create(Request $request)
-    {
-        $this->title = $request->input('title');
-        $this->excerpt = $request->input('except');
-        $this->content = $request->input('content');
-        return $this->save();
     }
 }

@@ -8,7 +8,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Tests\TestCase;
 
-class PostTest extends TestCase
+class PostDbTest extends TestCase
 {
     /**
      * Post creation test.
@@ -26,7 +26,7 @@ class PostTest extends TestCase
                     ['name' => 'art'],
                 ))
             )
-            ->create();
+            ->create(['id' => 1]);
 
         // Database
         // Check if a post exists.
