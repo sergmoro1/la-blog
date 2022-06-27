@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\PostCollection;
 
 class PostController extends Controller
 {
@@ -18,11 +19,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        return response()->json([
-            'success' => true,
-            'data' => PostResource::collection($posts),
-        ], 200);
+        return response()->json(
+            new PostCollection(Post::paginate()),
+            200
+        );
     }
 
     /**

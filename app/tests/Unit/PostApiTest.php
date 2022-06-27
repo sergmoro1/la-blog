@@ -88,6 +88,21 @@ class PostApiTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure([
                 'success',
+                'links' => [
+                    "first",
+                    "last",
+                    "prev",
+                    "next",
+                ],
+                'meta' => [
+                    "current_page",
+                    "from",
+                    "last_page",
+                    "path",
+                    "per_page",
+                    "to",
+                    "total",
+                ],
                 'data' => [
                     '*' => [
                         'id', 
