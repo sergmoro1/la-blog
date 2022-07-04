@@ -13,6 +13,22 @@ use App\Http\Resources\PostCollection;
 class PostController extends Controller
 {
     /**
+     * @OA\Get(
+     *     path="/api/index",
+     *     operationId="getPostList",
+     *     tags={"Posts"},
+     *     summary="Get list of postss",
+     *     description="Returns list of posts",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Post")
+     *         )
+     *     )
+     * )
+     * 
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

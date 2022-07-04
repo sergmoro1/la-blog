@@ -5,6 +5,48 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\TagResource;
 
+/**
+ * @OA\Schema(
+ *     schema="Post",
+ *     type="object",
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="title",
+ *         type="string",
+ *         example="Genius title"
+ *     ),
+ *     @OA\Property(
+ *         property="excerpt",
+ *         type="string",
+ *         example="Excerpt of Content"
+ *     ),
+ *     @OA\Property(
+ *         property="Content",
+ *         type="string",
+ *         example="Long Content"
+ *     ),
+ *     @OA\Property(
+ *         property="Tags",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/Tag")
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         type="date",
+ *         example="2022-07-04 16:31:00"
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         type="date",
+ *         example="2022-07-04 16:31:00"
+ *     )
+ * )
+ */
+
 class PostResource extends JsonResource
 {
     /**

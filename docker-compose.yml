@@ -97,6 +97,7 @@ services:
 
     rabbitmq:
         image: 'rabbitmq:3.6-management-alpine'
+        container_name: blog-rabbitmq
         ports:
             # The standard AMQP protocol port
             - '5672:5672'
@@ -112,7 +113,17 @@ services:
             RABBITMQ_DEFAULT_PASS: "guest"
         networks:
             - internal
-      
+
+    swagger-ui:
+        image: swaggerapi/swagger-ui
+        container_name: blog-swagger
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./app/doc:/usr/share/nginx/html/doc
+        environment:
+            API_URL: doc/openapi.yaml
+
 volumes:
   composer:
   dbdata:

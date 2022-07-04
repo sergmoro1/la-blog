@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: 'API documentation for blog example.'
+  description: 'Implementation of Swagger with in Laravel'
+  contact:
+    email: sergmoro1@ya.ru
+  license:
+    name: MIT
+    url: 'https://mit-license.org/'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8080'
+    description: 'Demo API Server'
+paths:
+  /api/index:
+    get:
+      tags:
+        - Posts
+      summary: 'Get list of postss'
+      description: 'Returns list of posts'
+      operationId: getPostList
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+components:
+  schemas:
+    Post:
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: 'Genius title'
+        excerpt:
+          type: string
+          example: 'Excerpt of Content'
+        Content:
+          type: string
+          example: 'Long Content'
+        Tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        created_at:
+          type: string
+          format: date
+          example: '2022-07-04 16:31:00'
+        updated_at:
+          type: string
+          format: date
+          example: '2022-07-04 16:31:00'
+      type: object
+    Tag:
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: php
+        created_at:
+          type: string
+          format: date
+          example: '2022-07-04 16:31:00'
+        updated_at:
+          type: string
+          format: date
+          example: '2022-07-04 16:31:00'
+      type: object
