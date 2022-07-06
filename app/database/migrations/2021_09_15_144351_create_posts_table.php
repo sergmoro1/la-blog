@@ -15,6 +15,7 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->enum('status', ['draft', 'published', 'archived']);
             $table->string('title');
             $table->text('excerpt');
             $table->longText('content');

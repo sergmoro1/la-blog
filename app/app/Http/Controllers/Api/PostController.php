@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
+use App\Http\Requests\PostDtoRequest;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollection;
 
@@ -17,8 +20,29 @@ class PostController extends Controller
      *     path="/api/index",
      *     operationId="getPostList",
      *     tags={"Posts"},
-     *     summary="Get list of postss",
+     *     summary="Get list of posts",
      *     description="Returns list of posts",
+     *     @OA\Parameter(
+     *         name="tags[]",
+     *         in="query",
+     *         description="tag to filter by",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="array",
+     *             @OA\Items(type="string")
+     *         ),
+     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="maximum number of results to return",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -33,10 +57,18 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(PostDtoRequest $request)
     {
+        if ($request->tags) {
+            $query = Post::whereHas('tags', function (Builder $query) use ($request) {
+                $query->whereIn('name', $request->tags);
+            });
+        } else {
+            $query = Post::with('tags');
+        }
+        
         return response()->json(
-            new PostCollection(Post::paginate()),
+            new PostCollection($query->paginate($request->limit)),
             200
         );
     }

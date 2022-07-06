@@ -23,8 +23,12 @@ use Illuminate\Http\Request;
 class Post extends Model
 {
     use HasFactory;
+    
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_PUBLISHED = 'published';
+    public const STATUS_ARCHIVED = 'archived';
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var string[]
@@ -35,7 +39,7 @@ class Post extends Model
         'content',
     ];
     
-      /**
+    /**
      * The attributes that are auto assignable.
      *
      * @var string[]

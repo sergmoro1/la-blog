@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Post;
 
 class PostFactory extends Factory
 {
@@ -14,6 +15,7 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
+            'status' => Post::STATUS_DRAFT,
             'title' => $this->faker->sentence(),
             'excerpt' => $this->faker->paragraph(),
             'content' => $this->faker->realText(),

@@ -11,7 +11,7 @@ info:
 servers:
   -
     url: 'http://localhost:8080'
-    description: 'Demo API Server'
+    description: 'Blog API Server'
 paths:
   /api/index:
     get:
@@ -20,6 +20,25 @@ paths:
       summary: 'Get list of postss'
       description: 'Returns list of posts'
       operationId: getPostList
+      parameters:
+        -
+          name: 'tags[]'
+          in: query
+          description: 'tag to filter by'
+          required: false
+          style: form
+          schema:
+            type: array
+            items:
+              type: string
+        -
+          name: limit
+          in: query
+          description: 'maximum number of results to return'
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: 'Successful operation'
@@ -36,6 +55,13 @@ components:
         id:
           type: integer
           example: 1
+        status:
+          type: string
+          enum:
+            - draft
+            - published
+            - archived
+          example: draft
         title:
           type: string
           example: 'Genius title'
@@ -51,12 +77,12 @@ components:
             $ref: '#/components/schemas/Tag'
         created_at:
           type: string
-          format: date
-          example: '2022-07-04 16:31:00'
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
         updated_at:
           type: string
-          format: date
-          example: '2022-07-04 16:31:00'
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
       type: object
     Tag:
       properties:
@@ -68,10 +94,10 @@ components:
           example: php
         created_at:
           type: string
-          format: date
-          example: '2022-07-04 16:31:00'
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
         updated_at:
           type: string
-          format: date
-          example: '2022-07-04 16:31:00'
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
       type: object

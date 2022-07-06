@@ -24,7 +24,7 @@ use OpenApi\Annotations as OA;
  *
  * @OA\Server(
  *      url="http://localhost:8080",
- *      description="Demo API Server"
+ *      description="Blog API Server"
  * )
  */
 class Controller extends BaseController

@@ -15,6 +15,12 @@ use App\Http\Resources\TagResource;
  *         example=1
  *     ),
  *     @OA\Property(
+ *         property="status",
+ *         type="string",
+ *         enum={"draft", "published", "archived"},
+ *         example="draft"
+ *     ),
+ *     @OA\Property(
  *         property="title",
  *         type="string",
  *         example="Genius title"
@@ -36,13 +42,15 @@ use App\Http\Resources\TagResource;
  *     ),
  *     @OA\Property(
  *         property="created_at",
- *         type="date",
- *         example="2022-07-04 16:31:00"
+ *         type="string",
+ *         format="date-time",
+ *         example="2022-07-04T16:31:00+0300"
  *     ),
  *     @OA\Property(
  *         property="updated_at",
- *         type="date",
- *         example="2022-07-04 16:31:00"
+ *         type="string",
+ *         format="date-time",
+ *         example="2022-07-04T16:31:00+0300"
  *     )
  * )
  */
@@ -59,6 +67,7 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'status' => $this->status,
             'title' => $this->title,
             'excerpt' => $this->excerpt,
             'content' => $this->content,

@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Models\Post;
 
 class PostRequest extends FormRequest
 {
@@ -26,6 +28,7 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
+            'status' => Rule::in(Post::STATUS_DRAFT, Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED),
             'title' => 'required|max:255',
             'excerpt' => 'required',
             'content' => 'required',

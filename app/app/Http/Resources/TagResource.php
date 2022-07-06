@@ -20,13 +20,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *     ),
  *     @OA\Property(
  *         property="created_at",
- *         type="date",
- *         example="2022-07-04 16:31:00"
+ *         type="string",
+ *         format="date-time",
+ *         example="2022-07-04T16:31:00+0300"
  *     ),
  *     @OA\Property(
  *         property="updated_at",
- *         type="date",
- *         example="2022-07-04 16:31:00"
+ *         type="string",
+ *         format="date-time",
+ *         example="2022-07-04T16:31:00+0300"
  *     )
  * )
  */

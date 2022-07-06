@@ -75,17 +75,15 @@ class PostApiTest extends TestCase
     {
          // Create a post with two tags
         $post = Post::factory()
-            ->has(Tag::factory()
-                ->count(2)
-                ->state(new Sequence(
-                    ['name' => 'news'],
-                    ['name' => 'art'],
-                ))
-            )
-            ->create(['id' => 3]);
+            ->has(Tag::factory())
+            ->count(7)
+            ->create();
 
-       $this->getJson('api/posts')
+       $response = $this->getJson('api/posts?limit=5&page=2')
             ->assertStatus(200)
+            ->assertJsonFragment(["current_page" => 2])
+            ->assertJsonFragment(["total" => 8])
+            ->assertJsonFragment(["per_page" => "5"])
             ->assertJsonStructure([
                 'success',
                 'links' => [
@@ -105,7 +103,8 @@ class PostApiTest extends TestCase
                 ],
                 'data' => [
                     '*' => [
-                        'id', 
+                        'id',
+                        'status',
                         'title', 
                         'excerpt', 
                         'content', 
@@ -123,7 +122,7 @@ class PostApiTest extends TestCase
                 ],
             ]);
 
-        return 3;
+        return $response['data'][0]['id'];
     }
 
     /**
