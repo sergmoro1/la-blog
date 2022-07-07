@@ -95,7 +95,7 @@ class PostApiTest extends TestCase
                     ['name' => 'art'],
                     ['name' => 'sport'],
                     ['name' => 'economic'],
-                    ['name' => 'politica'],
+                    ['name' => 'politics'],
                     ['name' => 'finance'],
                     ['name' => 'helth'],
                     ['name' => 'humor'],

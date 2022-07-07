@@ -13,11 +13,11 @@ servers:
     url: 'http://localhost:8080'
     description: 'Blog API Server'
 paths:
-  /api/index:
+  /api/posts:
     get:
       tags:
         - Posts
-      summary: 'Get list of postss'
+      summary: 'Get list of posts'
       description: 'Returns list of posts'
       operationId: getPostList
       parameters:
@@ -48,6 +48,50 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Post'
+    post:
+      tags:
+        - Posts
+      summary: 'Create post'
+      description: 'Create new post'
+      operationId: createPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Post created.' }
+                type: object
+  '/api/posts/{id}':
+    get:
+      tags:
+        - Posts
+      summary: 'Get post'
+      description: 'Get post by ID'
+      operationId: getPost
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Post ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
 components:
   schemas:
     Post:
@@ -101,3 +145,10 @@ components:
           format: date-time
           example: '2022-07-04T16:31:00+0300'
       type: object
+  securitySchemes:
+    basicAuth:
+      type: http
+      description: 'Basic authentication by email & password.'
+      name: Authorization
+      in: header
+      scheme: basic

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
  * @license  https://mit-license.org/ MIT
  *
  * @param integer  $id
+ * @param enum     $status
  * @param string   $title
  * @param text     $excerpt
  * @param longText $content

@@ -17,7 +17,7 @@ class PostController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/index",
+     *     path="/api/posts",
      *     operationId="getPostList",
      *     tags={"Posts"},
      *     summary="Get list of posts",
@@ -74,6 +74,35 @@ class PostController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/api/posts",
+     *     operationId="createPost",
+     *     tags={"Posts"},
+     *     summary="Create post",
+     *     description="Create new post",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             ref="#/components/schemas/Post"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example="true"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Post created."
+     *             )
+     *         )
+     *     )
+     * )
+     * 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -84,11 +113,36 @@ class PostController extends Controller
         $post = Post::create($request->all());
         return response()->json([
             'success' => true,
-            'data' => new PostResource($post),
+            'message' => "Post created.",
         ], 200);
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/posts/{id}",
+     *     operationId="getPost",
+     *     tags={"Posts"},
+     *     summary="Get post",
+     *     description="Get post by ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="Post ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             ref="#/components/schemas/Post"
+     *         )
+     *     )
+     * )
+     * 
      * Get the specified resource.
      *
      * @param  int  $id
@@ -124,7 +178,7 @@ class PostController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => new PostResource($post),
+            'message' => "Post ($id) updated.",
         ], 200);
     }
 
@@ -145,6 +199,7 @@ class PostController extends Controller
         
         return response()->json([
             'success' => true,
+            'message' => "Post ($id) deleted.",
         ], 200);
    }
 

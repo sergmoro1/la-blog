@@ -25,9 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 ]);
 */
 
-Route::group([
-     'middleware' => 'auth.basic.once',
-], function () {
+Route::group(['middleware' => 'auth.basic.once'], function () {
     Route::resources([
         'posts' => PostController::class,
     ]);
