@@ -33,7 +33,7 @@ class Post extends Model
      *
      * @var string[]
      */
-   protected $fillable= [
+    protected $fillable= [
         'title',
         'excerpt',
         'content',
@@ -44,7 +44,7 @@ class Post extends Model
      *
      * @var string[]
      */
-   protected $hidden = [
+    protected $hidden = [
         'created_at', 
         'updated_at',
     ];
