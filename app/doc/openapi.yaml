@@ -19,7 +19,7 @@ paths:
         - Posts
       summary: 'Get list of posts'
       description: 'Returns list of posts'
-      operationId: getPostList
+      operationId: indexPost
       parameters:
         -
           name: 'tags[]'
@@ -48,6 +48,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Post'
+    put:
+      tags:
+        - Posts
+      summary: 'Update post'
+      description: 'Update existing post'
+      operationId: updatePost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Post updated.' }
+                type: object
     post:
       tags:
         - Posts
@@ -92,6 +113,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
+    delete:
+      tags:
+        - Posts
+      summary: 'Delete post'
+      description: 'Delete post by ID'
+      operationId: deletePost
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Post ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Post deleted.' }
+                type: object
 components:
   schemas:
     Post:

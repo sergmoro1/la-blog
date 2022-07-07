@@ -18,7 +18,7 @@ class PostController extends Controller
     /**
      * @OA\Get(
      *     path="/api/posts",
-     *     operationId="getPostList",
+     *     operationId="indexPost",
      *     tags={"Posts"},
      *     summary="Get list of posts",
      *     description="Returns list of posts",
@@ -161,6 +161,35 @@ class PostController extends Controller
     }
 
     /**
+     * @OA\Put(
+     *     path="/api/posts",
+     *     operationId="updatePost",
+     *     tags={"Posts"},
+     *     summary="Update post",
+     *     description="Update existing post",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             ref="#/components/schemas/Post"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example="true"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Post updated."
+     *             )
+     *         )
+     *     )
+     * )
+     * 
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -183,6 +212,40 @@ class PostController extends Controller
     }
 
     /**
+     * @OA\Delete(
+     *     path="/api/posts/{id}",
+     *     operationId="deletePost",
+     *     tags={"Posts"},
+     *     summary="Delete post",
+     *     description="Delete post by ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="Post ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example="true"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Post deleted."
+     *             )
+     *         )
+     *     )
+     * )
+     * 
      * Remove the specified resource from storage.
      *
      * @param  int  $id
