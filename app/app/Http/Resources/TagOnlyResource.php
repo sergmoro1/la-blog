@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @OA\Schema(
- *     schema="Tag",
+ *     schema="TagOnly",
  *     type="object",
  *     @OA\Property(
  *         property="id",
@@ -17,11 +17,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *         property="name",
  *         type="string",
  *         example="php"
- *     ),
- *     @OA\Property(
- *         property="Posts",
- *         type="array",
- *         @OA\Items(ref="#/components/schemas/PostOnly")
  *     ),
  *     @OA\Property(
  *         property="created_at",
@@ -38,7 +33,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * )
  */
 
-class TagResource extends JsonResource
+class TagOnlyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -51,7 +46,6 @@ class TagResource extends JsonResource
        return [
             'id' => $this->id,
             'name' => $this->name,
-            'tags' => PostOnlyResource::collection($this->posts),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

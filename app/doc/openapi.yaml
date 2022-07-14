@@ -58,7 +58,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Post'
+              $ref: '#/components/schemas/PostOnly'
       responses:
         '200':
           description: 'Successful operation'
@@ -79,7 +79,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Post'
+              $ref: '#/components/schemas/PostOnly'
       responses:
         '200':
           description: 'Successful operation'
@@ -138,8 +138,160 @@ paths:
                   success: { type: boolean, example: 'true' }
                   message: { type: string, example: 'Post deleted.' }
                 type: object
+  /api/tags:
+    get:
+      tags:
+        - Tags
+      summary: 'Get list of tags'
+      description: 'Returns list of tags'
+      operationId: indexTag
+      parameters:
+        -
+          name: search
+          in: query
+          description: 'search string'
+          required: false
+          schema:
+            type: string
+        -
+          name: limit
+          in: query
+          description: 'maximum number of results to return'
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+    put:
+      tags:
+        - Tags
+      summary: 'Update tag'
+      description: 'Update existing tag'
+      operationId: updateTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagOnly'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Tag updated.' }
+                type: object
+    post:
+      tags:
+        - Tags
+      summary: 'Create tag'
+      description: 'Create new tag'
+      operationId: createTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagOnly'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Tag created.' }
+                type: object
+  '/api/tags/{id}':
+    get:
+      tags:
+        - Tags
+      summary: 'Get tag'
+      description: 'Get tag by ID'
+      operationId: getTag
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Tag ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+    delete:
+      tags:
+        - Tags
+      summary: 'Delete tag'
+      description: 'Delete tag by ID'
+      operationId: deleteTag
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Tag ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Tag deleted.' }
+                type: object
 components:
   schemas:
+    PostOnly:
+      properties:
+        id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          enum:
+            - draft
+            - published
+            - archived
+          example: draft
+        title:
+          type: string
+          example: 'Genius title'
+        excerpt:
+          type: string
+          example: 'Excerpt of Content'
+        Content:
+          type: string
+          example: 'Long Content'
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+      type: object
     Post:
       properties:
         id:
@@ -164,7 +316,24 @@ components:
         Tags:
           type: array
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: '#/components/schemas/TagOnly'
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+      type: object
+    TagOnly:
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: php
         created_at:
           type: string
           format: date-time
@@ -182,6 +351,10 @@ components:
         name:
           type: string
           example: php
+        Posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostOnly'
         created_at:
           type: string
           format: date-time

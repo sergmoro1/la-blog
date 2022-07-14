@@ -3,10 +3,11 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\TagResource;
 
 /**
  * @OA\Schema(
- *     schema="Tag",
+ *     schema="PostOnly",
  *     type="object",
  *     @OA\Property(
  *         property="id",
@@ -14,14 +15,25 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *         example=1
  *     ),
  *     @OA\Property(
- *         property="name",
+ *         property="status",
  *         type="string",
- *         example="php"
+ *         enum={"draft", "published", "archived"},
+ *         example="draft"
  *     ),
  *     @OA\Property(
- *         property="Posts",
- *         type="array",
- *         @OA\Items(ref="#/components/schemas/PostOnly")
+ *         property="title",
+ *         type="string",
+ *         example="Genius title"
+ *     ),
+ *     @OA\Property(
+ *         property="excerpt",
+ *         type="string",
+ *         example="Excerpt of Content"
+ *     ),
+ *     @OA\Property(
+ *         property="Content",
+ *         type="string",
+ *         example="Long Content"
  *     ),
  *     @OA\Property(
  *         property="created_at",
@@ -38,7 +50,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * )
  */
 
-class TagResource extends JsonResource
+class PostOnlyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -48,10 +60,12 @@ class TagResource extends JsonResource
      */
     public function toArray($request)
     {
-       return [
+        return [
             'id' => $this->id,
-            'name' => $this->name,
-            'tags' => PostOnlyResource::collection($this->posts),
+            'status' => $this->status,
+            'title' => $this->title,
+            'excerpt' => $this->excerpt,
+            'content' => $this->content,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -6,32 +6,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\Post;
+use App\Models\Tag;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PostRequest;
-use App\Http\Requests\PostDtoRequest;
-use App\Http\Resources\PostResource;
-use App\Http\Resources\PostCollection;
+use App\Http\Requests\TagRequest;
+use App\Http\Requests\TagDtoRequest;
+use App\Http\Resources\TagResource;
 
-class PostController extends Controller
+class TagController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/posts",
-     *     operationId="indexPost",
-     *     tags={"Posts"},
-     *     summary="Get list of posts",
-     *     description="Returns list of posts",
+     *     path="/api/tags",
+     *     operationId="indexTag",
+     *     tags={"Tags"},
+     *     summary="Get list of tags",
+     *     description="Returns list of tags",
      *     @OA\Parameter(
-     *         name="tags[]",
+     *         name="search",
      *         in="query",
-     *         description="tag to filter by",
+     *         description="search string",
      *         required=false,
      *         @OA\Schema(
-     *             type="array",
-     *             @OA\Items(type="string")
+     *             type="string",
      *         ),
-     *         style="form"
      *     ),
      *     @OA\Parameter(
      *         name="limit",
@@ -48,7 +45,7 @@ class PostController extends Controller
      *         description="Successful operation",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Post")
+     *             @OA\Items(ref="#/components/schemas/Tag")
      *         )
      *     )
      * )
@@ -57,32 +54,32 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(PostDtoRequest $request)
+    public function index(TagDtoRequest $request)
     {
-        if ($request->tags) {
-            $query = Post::whereHas('tags', function (Builder $query) use ($request) {
-                $query->whereIn('name', $request->tags);
+        if ($request->search) {
+            $query = Tag::whereHas('posts', function (Builder $query) use ($request) {
+                $query->where('name', 'like', '%'.$request->tags.'%');
             });
         } else {
-            $query = Post::with('tags');
+            $query = Tag::with('posts');
         }
-        
+ 
         return response()->json(
-            new PostCollection($query->paginate($request->limit)),
+            new TagCollection($query->paginate($request->limit)),
             200
         );
     }
 
     /**
      * @OA\Post(
-     *     path="/api/posts",
-     *     operationId="createPost",
-     *     tags={"Posts"},
-     *     summary="Create post",
-     *     description="Create new post",
+     *     path="/api/tags",
+     *     operationId="createTag",
+     *     tags={"Tags"},
+     *     summary="Create tag",
+     *     description="Create new tag",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
-     *             ref="#/components/schemas/PostOnly"
+     *             ref="#/components/schemas/TagOnly"
      *         ),
      *     ),
      *     @OA\Response(
@@ -97,7 +94,7 @@ class PostController extends Controller
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
-     *                 example="Post created."
+     *                 example="Tag created."
      *             )
      *         )
      *     )
@@ -108,26 +105,26 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store(TagRequest $request)
     {
-        $post = Post::create($request->all());
+        $tag = Tag::create($request->all());
         return response()->json([
             'success' => true,
-            'message' => "Post created.",
+            'message' => "Tag created.",
         ], 200);
     }
 
     /**
      * @OA\Get(
-     *     path="/api/posts/{id}",
-     *     operationId="getPost",
-     *     tags={"Posts"},
-     *     summary="Get post",
-     *     description="Get post by ID",
+     *     path="/api/tags/{id}",
+     *     operationId="getTag",
+     *     tags={"Tags"},
+     *     summary="Get tag",
+     *     description="Get tag by ID",
      *     @OA\Parameter(
      *         name="id",
      *         in="query",
-     *         description="Post ID",
+     *         description="Tag ID",
      *         required=true,
      *         @OA\Schema(
      *             type="integer",
@@ -138,7 +135,7 @@ class PostController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             ref="#/components/schemas/Post"
+     *             ref="#/components/schemas/Tag"
      *         )
      *     )
      * )
@@ -150,26 +147,26 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
-        if (!$post) {
+        $tag = Tag::find($id);
+        if (!$tag) {
             return responseNotFound();
         }
         return response()->json([
             'success' => true,
-            'data' => new PostResource($post),
+            'data' => new TagResource($tag),
         ], 200);
     }
 
     /**
      * @OA\Put(
-     *     path="/api/posts",
-     *     operationId="updatePost",
-     *     tags={"Posts"},
-     *     summary="Update post",
-     *     description="Update existing post",
+     *     path="/api/tags",
+     *     operationId="updateTag",
+     *     tags={"Tags"},
+     *     summary="Update tag",
+     *     description="Update existing tag",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
-     *             ref="#/components/schemas/PostOnly"
+     *             ref="#/components/schemas/TagOnly"
      *         ),
      *     ),
      *     @OA\Response(
@@ -184,7 +181,7 @@ class PostController extends Controller
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
-     *                 example="Post updated."
+     *                 example="Tag updated."
      *             )
      *         )
      *     )
@@ -198,30 +195,30 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, $id)
     {
-        $post = Post::find($id);
-        if (!$post) {
+        $tag = Tag::find($id);
+        if (!$tag) {
             return responseNotFound();
         }
 
-        $post->update($request->all());
+        $tag->update($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => "Post ($id) updated.",
+            'message' => "Tag ($id) updated.",
         ], 200);
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/posts/{id}",
-     *     operationId="deletePost",
-     *     tags={"Posts"},
-     *     summary="Delete post",
-     *     description="Delete post by ID",
+     *     path="/api/tags/{id}",
+     *     operationId="deleteTag",
+     *     tags={"Tags"},
+     *     summary="Delete tag",
+     *     description="Delete tag by ID",
      *     @OA\Parameter(
      *         name="id",
      *         in="query",
-     *         description="Post ID",
+     *         description="Tag ID",
      *         required=true,
      *         @OA\Schema(
      *             type="integer",
@@ -240,7 +237,7 @@ class PostController extends Controller
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
-     *                 example="Post deleted."
+     *                 example="Tag deleted."
      *             )
      *         )
      *     )

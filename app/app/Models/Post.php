@@ -35,6 +35,7 @@ class Post extends Model
      * @var string[]
      */
     protected $fillable= [
+        'status',
         'title',
         'excerpt',
         'content',

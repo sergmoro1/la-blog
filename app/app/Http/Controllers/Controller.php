@@ -39,4 +39,16 @@ use OpenApi\Annotations as OA;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Prepare NotFound response.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function responseNotFound() {
+        return response()->json([
+            'success' => false,
+            'message' => 'Not found.', 
+        ], 404);
+    }
 }

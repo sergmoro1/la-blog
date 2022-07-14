@@ -29,6 +29,16 @@ class Tag extends Model
     ];
 
     /**
+     * The attributes that are auto assignable.
+     *
+     * @var string[]
+     */
+    protected $hidden = [
+        'created_at', 
+        'updated_at',
+    ];
+    
+    /**
      * Статьи, в которых был указан тег.
      *
      * @return mixed

@@ -38,7 +38,7 @@ use App\Http\Resources\TagResource;
  *     @OA\Property(
  *         property="Tags",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/Tag")
+ *         @OA\Items(ref="#/components/schemas/TagOnly")
  *     ),
  *     @OA\Property(
  *         property="created_at",
@@ -71,7 +71,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
-            'tags' => TagResource::collection($this->tags),
+            'tags' => TagOnlyResource::collection($this->tags),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

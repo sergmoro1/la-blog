@@ -57,25 +57,25 @@ composer-install-no-dev:
 	docker compose run --rm --no-deps php-cli composer install --no-dev
 
 npm-serve:
-	docker-compose run --rm -p "8101:8101" -v "$(PWD)/app:/app" node npm run serve
+	docker compose run --rm -p "8101:8101" -v "$(PWD)/app:/app" node npm run serve
 
 npm-build:
-	docker-compose run --rm -v "$(PWD)/app:/app" node npm run build
+	docker compose run --rm -v "$(PWD)/app:/app" node npm run build
 
 npm-build-dev:
-	docker-compose run --rm -v "$(PWD)/app:/app" node npm run build-dev
+	docker compose run --rm -v "$(PWD)/app:/app" node npm run build-dev
 
 npm-install-package:
-	docker-compose run --rm -v "$(PWD)/app:/app" node npm install ${ARGS}
+	docker compose run --rm -v "$(PWD)/app:/app" node npm install ${ARGS}
 
 npm-install:
-	docker-compose run --rm -v "$(PWD)/app:/app" node npm install
+	docker compose run --rm -v "$(PWD)/app:/app" node npm install
 
 npm-remove:
-	docker-compose run --rm -v "$(PWD)/app:/app" node npm remove ${ARGS}
+	docker compose run --rm -v "$(PWD)/app:/app" node npm remove ${ARGS}
 
 npm-prune:
-	docker-compose run --rm -v "$(PWD)/app:/app" node npm prune
+	docker compose run --rm -v "$(PWD)/app:/app" node npm prune
 
 shell-cli:
 	docker compose run --rm --no-deps php-cli bash
