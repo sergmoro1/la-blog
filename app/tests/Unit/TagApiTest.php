@@ -9,49 +9,49 @@ use App\Models\Post;
 use App\Models\Tag;
 use App\Http\Resources\PostResource;
 
-class PostApiTest extends TestCase
+class TagApiTest extends TestCase
 {
     use BasicAuth;
     
     /**
-     * Api post store test.
+     * Api tag store test.
      *
      * @return void
      */
-    public function test_api_post_store()
+    public function test_api_tag_store()
     {
         // Create Basic Api key
         BasicAuth::setKey('sergmoro1@ya.ru', 'password');
 
-        // Make a post
-        $post = Post::factory()->make(['id' => 1]);
+        // Make a tag
+        $tag = Tag::factory()->make(['id' => 1]);
         
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->postJson('api/posts', $post->toArray())
+            ->postJson('api/tags', $tag->toArray())
             ->assertStatus(200);
     }
 
     /**
-     * Api post update test.
+     * Api tag update test.
      * 
      * @return void
      */
-    public function test_api_post_update()
+    public function test_api_tag_update()
     {
-        // Create a post
-        $post = Post::factory()->create(['id' => 2]);
-        // Change title
-        $post->title = 'New title';
+        // Create a tag
+        $tag = Tag::factory()->create(['id' => 2]);
+        // Change tag name
+        $tag->name = 'news';
 
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->putJson('api/posts/2', $post->toArray())
+            ->putJson('api/tags/2', $tag->toArray())
             ->assertStatus(200);
         
-        // Set empty excerpt
-        $post->excerpt = '';
+        // Set empty name
+        $tag->name = '';
         
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->putJson('api/posts/2', $post->toArray())
+            ->putJson('api/tags/2', $tag->toArray())
             ->assertStatus(422)
             ->assertJsonStructure([
                 'success',
@@ -60,49 +60,36 @@ class PostApiTest extends TestCase
         
         return 2;
     }
-    
+
     /**
-     * Api post delete test.
+     * Api tag delete test.
      * 
-     * @depends test_api_post_update
-     * @param int $post_id
+     * @depends test_api_tag_update
+     * @param int $tag_id
      * @return void
      */
-    public function test_api_post_delete(int $post_id)
+    public function test_api_tag_delete(int $tag_id)
     {
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->deleteJson('api/posts/' . $post_id)
+            ->deleteJson('api/tags/' . $tag_id)
             ->assertStatus(200);
     }
     
     /**
-     * Api post index test.
+     * Api tag index test.
      *
      * @return int
      */
-    public function test_api_post_index()
+    public function test_api_tag_index()
     {
-        // Create a 7 posts with one from tags
-        $post = Post::factory()
-            ->has(Tag::factory()
-                ->state(new Sequence(
-                    ['name' => 'news'],
-                    ['name' => 'art'],
-                    ['name' => 'sport'],
-                    ['name' => 'economic'],
-                    ['name' => 'politics'],
-                    ['name' => 'finance'],
-                    ['name' => 'helth'],
-                    ['name' => 'humor'],
-                    ['name' => 'cooking'],
-                    ['name' => 'cinema'],
-                ))
-            )
+        // Create tags with post
+        $tag = Tag::factory()
+            ->has(Post::factory())
             ->count(7)
             ->create();
 
         $response = $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->getJson('api/posts?limit=5&page=2')
+            ->getJson('api/tags?limit=5&page=2')
                 ->assertStatus(200)
                 ->assertJsonFragment(["current_page" => 2])
                 ->assertJsonFragment(["total" => 8])
@@ -127,14 +114,14 @@ class PostApiTest extends TestCase
                     'data' => [
                         '*' => [
                             'id',
-                            'status',
-                            'title', 
-                            'excerpt', 
-                            'content', 
-                            'tags' => [
+                            'name',
+                            'posts' => [
                                 '*' => [
                                     'id',
-                                    'name',
+                                    'status',
+                                    'title', 
+                                    'excerpt', 
+                                    'content', 
                                     'created_at',
                                     'updated_at',
                                 ],
@@ -145,24 +132,20 @@ class PostApiTest extends TestCase
                     ],
                 ]);
 
-       $response = $this->getJson('api/posts?tags[]=news&tags[]=sport')
-            ->assertStatus(200)
-            ->assertJsonFragment(["total" => 2]);
-
         return $response['data'][0]['id'];
     }
 
-    /**
-     * Api post show test.
+   /**
+     * Api tag show test.
      * 
-     * @depends test_api_post_index
-     * @param int $post_id
+     * @depends test_api_tag_index
+     * @param int $tag_id
      * @return void
      */
-    public function test_api_post_show(int $post_id)
+    public function test_api_tag_show(int $tag_id)
     {
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->getJson('api/posts/' . $post_id)
+            ->getJson('api/tags/' . $tag_id)
             ->assertStatus(200);
 
         DB::table('post_tag')->delete();

@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TagRequest;
 use App\Http\Requests\TagDtoRequest;
 use App\Http\Resources\TagResource;
+use App\Http\Resources\TagCollection;
 
 class TagController extends Controller
 {
@@ -193,7 +194,7 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, $id)
+    public function update(TagRequest $request, $id)
     {
         $tag = Tag::find($id);
         if (!$tag) {
@@ -250,16 +251,16 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        if (!$post) {
+        $tag = Tag::find($id);
+        if (!$tag) {
             return responseNotFound();
         }
         
-        $post->delete();
+        $tag->delete();
         
         return response()->json([
             'success' => true,
-            'message' => "Post ($id) deleted.",
+            'message' => "Tag ($id) deleted.",
         ], 200);
    }
 }
