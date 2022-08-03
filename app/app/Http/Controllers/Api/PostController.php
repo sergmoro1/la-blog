@@ -152,7 +152,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if (!$post) {
-            return responseNotFound();
+            return $this->responseNotFound();
         }
         return response()->json([
             'success' => true,
@@ -200,7 +200,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if (!$post) {
-            return responseNotFound();
+            return $this->responseNotFound();
         }
 
         $post->update($request->all());
@@ -255,7 +255,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         if (!$post) {
-            return responseNotFound();
+            return $this->responseNotFound();
         }
         
         $post->delete();

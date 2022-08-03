@@ -3,16 +3,12 @@
 namespace Tests\Unit;
 
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use Illuminate\Support\Facades\DB;
-use Tests\TestCase;
+use Tests\BlogTestCase;
 use App\Models\Post;
 use App\Models\Tag;
-use App\Http\Resources\PostResource;
 
-class PostApiTest extends TestCase
+class PostApiTest extends BlogTestCase
 {
-    use BasicAuth;
-    
     /**
      * Api post store test.
      *
@@ -20,6 +16,8 @@ class PostApiTest extends TestCase
      */
     public function test_api_post_store()
     {
+        $this->clearTables();
+
         // Create Basic Api key
         BasicAuth::setKey('sergmoro1@ya.ru', 'password');
 
@@ -164,10 +162,11 @@ class PostApiTest extends TestCase
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->getJson('api/posts/' . $post_id)
             ->assertStatus(200);
+        
+        $this->withHeaders(["Authorization" => BasicAuth::getKey()])
+            ->getJson('api/posts/' . ($post_id + 10))
+            ->assertStatus(404);
 
-        DB::table('post_tag')->delete();
-        DB::table('tags')->delete();
-        DB::table('posts')->delete();
-        BasicAuth::clear();
+        $this->clearTables();
     }
 }

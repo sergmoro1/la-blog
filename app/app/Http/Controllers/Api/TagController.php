@@ -150,7 +150,7 @@ class TagController extends Controller
     {
         $tag = Tag::find($id);
         if (!$tag) {
-            return responseNotFound();
+            return $this->responseNotFound();
         }
         return response()->json([
             'success' => true,
@@ -198,7 +198,7 @@ class TagController extends Controller
     {
         $tag = Tag::find($id);
         if (!$tag) {
-            return responseNotFound();
+            return $this->responseNotFound();
         }
 
         $tag->update($request->all());
@@ -253,7 +253,7 @@ class TagController extends Controller
     {
         $tag = Tag::find($id);
         if (!$tag) {
-            return responseNotFound();
+            return $this->responseNotFound();
         }
         
         $tag->delete();
