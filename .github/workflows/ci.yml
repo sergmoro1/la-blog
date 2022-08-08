@@ -76,7 +76,7 @@ jobs:
       - name: Prepare the application
         working-directory: ./app
         run: |
-          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php -r "file_exists('.env') || copy('.env.sample', '.env');"
           php artisan key:generate
 
       - name: Clear Config
