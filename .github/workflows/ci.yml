@@ -85,7 +85,7 @@ jobs:
 
       - name: Run Migration
         working-directory: ./app
-        run: php artisan migrate -v
+        run: php artisan migrate --force
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
