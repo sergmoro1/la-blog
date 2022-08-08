@@ -22,14 +22,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: blog
-      DB_USERNAME: admin
-      DB_PASSWORD: splin16
+      DB_USERNAME: root
+      DB_PASSWORD: 
     services:
       mysql:
         image: mysql:latest
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: splin16
+          MYSQL_ROOT_PASSWORD: 
           MYSQL_DATABASE: blog
         ports:
           - 3306/tcp
