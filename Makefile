@@ -60,10 +60,10 @@ npm-serve:
 	docker compose run --rm -p "8101:8101" -v "$(PWD)/app:/app" node npm run serve
 
 npm-build:
-	docker compose run --rm -v "$(PWD)/app:/app" node npm run build
+	docker compose run --rm -v "$(PWD)/app:/app" node npm run prod
 
 npm-build-dev:
-	docker compose run --rm -v "$(PWD)/app:/app" node npm run build-dev
+	docker compose run --rm -v "$(PWD)/app:/app" node npm run dev
 
 npm-install-package:
 	docker compose run --rm -v "$(PWD)/app:/app" node npm install ${ARGS}
