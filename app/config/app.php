@@ -231,5 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+    
+    'posts_per_page' => env('POSTS_PER_PAGE', 3),
 
 ];

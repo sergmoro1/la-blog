@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,21 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/post-index', function () {
+    return view('post', ['action' => 'Index']);
+})->middleware(['auth'])->name('post-index');
+
+Route::get('/post-create', function () {
+    return view('post', ['action' => 'Add']);
+})->middleware(['auth'])->name('post-create');
+
+Route::get('/post-show/{id}', function ($id) {
+    return view('post', ['post' => Post::find($id), 'action' => 'Show']);
+})->middleware(['auth'])->name('post-show');
+
+Route::post('/post-delete/{id}', 
+    [App\Http\Livewire\Post\Index::class, 'delete']
+)->middleware(['auth'])->name('post-delete');
 
 require __DIR__.'/auth.php';

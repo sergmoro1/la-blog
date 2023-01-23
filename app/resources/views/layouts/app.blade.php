@@ -4,31 +4,40 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <meta name="description" content="Blog admin dashboard">
+        
+        <title>{{ config('app.name') }}</title>
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Scripts -->
-        <link href="/css/app.css" rel="stylesheet">
+        <link href="{{ url('css/app.css') }}" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
+        @livewireStyles
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-
-            <!-- Page Content -->
-            <main>
+    <body>
+        <div id="app">
+            <nav id="navbar-main" class="navbar is-fixed-top">
+                @include('parts.navbar')
+            </nav>
+            <aside class="aside is-placed-left is-expanded">
+                @include('parts.menu')
+            </aside>
+            <section class="is-title-bar">
+                {{ $title}}
+            </section>
+            <section class="is-hero-bar">
+                {{ $hero }}
+            </section>
+            <section class="section main-section">
                 {{ $slot }}
-            </main>
+            </section>
+            <footer class="footer">
+                @include('parts.footer')
+            </footer>
         </div>
-        <script src="/js/app.js"></script>
+        <script src="/js/main.js"></script>
+        @livewireScripts
+        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
     </body>
 </html>

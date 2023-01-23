@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => Rule::in(Post::STATUS_DRAFT, Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED),
+            'status' => Rule::in([Post::STATUS_DRAFT, Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED]),
             'title' => 'required|max:255',
             'excerpt' => 'required',
             'content' => 'required',
