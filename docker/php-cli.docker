@@ -1,4 +1,4 @@
-FROM php:7.4-cli
+FROM php:8.0-cli
 
 WORKDIR /app
 
@@ -13,6 +13,8 @@ RUN apt-get update && \
     apt-get autoclean && \
     apt-get autoremove -y --force-yes && \
     rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y netcat
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet
 
