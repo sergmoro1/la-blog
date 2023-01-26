@@ -19,7 +19,7 @@
           @elseif ($action == 'Add')
             {{ __('Add') }} {{ __('an awesome post') }}
           @else
-            {{ $post->title }}
+            {{ __('Read') }} {{ __('an awesome post') }}
           @endif
         </h1>
         @if ($action == 'Index')
@@ -44,7 +44,7 @@
       <livewire:post.index/>
     @endif
     @if ($action == "Show")
-      <livewire:post.show :post="$post"/>
+      <livewire:post.show :post_id="$post_id"/>
     @endif
     @if ($action == "Add")
       <livewire:post.form/>

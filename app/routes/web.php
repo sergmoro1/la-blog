@@ -31,7 +31,7 @@ Route::get('/post-create', function () {
 })->middleware(['auth'])->name('post-create');
 
 Route::get('/post-show/{id}', function ($id) {
-    return view('post', ['post' => Post::find($id), 'action' => 'Show']);
+    return view('post', ['post_id' => $id, 'action' => 'Show']);
 })->middleware(['auth'])->name('post-show');
 
 Route::post('/post-delete/{id}', 

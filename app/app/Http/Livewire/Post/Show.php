@@ -3,18 +3,20 @@
 namespace App\Http\Livewire\Post;
 
 use Livewire\Component;
+use App\Models\Post;
 
 class Show extends Component
 {
-    protected $post;
+    protected $post_id;
  
-    public function mount($post)
+    public function mount($post_id)
     {
-        $this->post = $post;
+        $this->post_id = $post_id;
     }
     
     public function render()
     {
-        return view('livewire.post.show', ['post' => $this->post]);
+        $post = Post::FindOrFail($this->post_id);
+        return view('livewire.post.show', ['post' => $post]);
     }
 }

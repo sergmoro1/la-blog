@@ -14,10 +14,20 @@
 - локальная среда должна быть определена в [docker](https://github.com/sergmoro1/la-blog/blob/master/docker-compose.yml);
 - при внесении изменений в код репозитария, должен использоваться механизм workflows от github для [запуска тестов](https://github.com/sergmoro1/la-blog/blob/master/.github/workflows/ci.yml "Continuous Integration"). 
 
-## Запуск тестов локально
+## Инициализация
+Выполнить в директории приложения
+```
+make shell-cli
+# php artisan migrate
+# php artisan db:seed
+```
 
+## Запуск тестов локально
 Выполнить в директории приложения
 ```
 make shell-cli
 # php artisan test
 ```
+
+## Настройка IDE VSCode
+В проекте используется IDE `VSCode` и отладчик `xDebug`, `Docker` и 'Laravel'. Как связать все вместе и можно прочитать [здесь](https://github.com/sergmoro1/la-blog/tree/master/.vscode "VSCode + xDebug + Docker + Laravel").
