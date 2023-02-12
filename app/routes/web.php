@@ -27,7 +27,7 @@ Route::get('/post-index', function () {
 })->middleware(['auth'])->name('post-index');
 
 Route::get('/post-create', function () {
-    return view('post', ['action' => 'Add']);
+    return view('post', ['action' => 'Form']);
 })->middleware(['auth'])->name('post-create');
 
 Route::get('/post-show/{id}', function ($id) {

@@ -3,6 +3,11 @@
   @var string $action Action that must be done 
 --}}
 <x-app-layout>
+    <x-slot name="css">
+      @if ($action == 'Form')
+        <link href="{{ url('css/select.css') }}" rel="stylesheet">
+      @endif
+    </x-slot>
     <x-slot name="title">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
         <ul>
@@ -40,13 +45,18 @@
           </div>
         @endif
     </x-slot>
+    <x-slot name="scripts">
+      @if ($action == 'Form')
+        <script src="/js/select.js"></script>
+      @endif
+    </x-slot>
     @if ($action == 'Index')
       <livewire:post.index/>
     @endif
     @if ($action == "Show")
       <livewire:post.show :post_id="$post_id"/>
     @endif
-    @if ($action == "Add")
+    @if ($action == "Form")
       <livewire:post.form/>
     @endif
 </x-app-layout>

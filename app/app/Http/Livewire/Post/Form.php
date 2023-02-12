@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Post;
 
 use Livewire\Component;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Validation\Rule;
 
 class Form extends Component
@@ -12,6 +13,8 @@ class Form extends Component
     public $title;
     public $excerpt;
     public $content;
+
+    public $tags;
  
     protected function rules()
     {
@@ -20,6 +23,7 @@ class Form extends Component
             'title' => 'required|max:255',
             'excerpt' => 'required',
             'content' => 'required',
+            'tags' => 'required',
         ];
     }
 
@@ -37,6 +41,7 @@ class Form extends Component
     
     public function render()
     {
-        return view('livewire.post.form');
+        $this->tags = Tag::all();
+        return view('livewire.post.form', ['tags' => $this->tags]);
     }
 }

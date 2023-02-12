@@ -8,11 +8,9 @@
         
         <title>{{ config('app.name') }}</title>
 
-        <!-- Fonts -->
-
         <!-- Scripts -->
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
-        <script src="https://cdn.tailwindcss.com"></script>
+        {{ $css }}
         @livewireStyles
     </head>
     <body>
@@ -24,7 +22,7 @@
                 @include('parts.menu')
             </aside>
             <section class="is-title-bar">
-                {{ $title}}
+                {{ $title }}
             </section>
             <section class="is-hero-bar">
                 {{ $hero }}
@@ -36,7 +34,9 @@
                 @include('parts.footer')
             </footer>
         </div>
+        {{ $scripts }}
         <script src="/js/main.js"></script>
+        <script src="/js/app.js"></script>
         @livewireScripts
         <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
     </body>

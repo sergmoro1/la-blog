@@ -30,4 +30,4 @@ make shell-cli
 ```
 
 ## Настройка IDE VSCode
-В проекте используется IDE `VSCode` и отладчик `xDebug`, `Docker` и 'Laravel'. Как связать все вместе и можно прочитать [здесь](https://github.com/sergmoro1/la-blog/tree/master/.vscode "VSCode + xDebug + Docker + Laravel").
+В проекте используется IDE `VSCode` и отладчик `xDebug`, `Docker` и `Laravel`. Как связать все вместе можно прочитать в каталоге [.vscode](https://github.com/sergmoro1/la-blog/tree/master/.vscode "VSCode + xDebug + Docker + Laravel") проекта.
