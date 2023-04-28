@@ -14,7 +14,7 @@ class Form extends Component
     public $excerpt;
     public $content;
 
-    public $tags;
+    public $values;
  
     protected function rules()
     {
@@ -23,7 +23,7 @@ class Form extends Component
             'title' => 'required|max:255',
             'excerpt' => 'required',
             'content' => 'required',
-            'tags' => 'required',
+            'values' => 'max:255',
         ];
     }
 

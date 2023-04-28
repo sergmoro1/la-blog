@@ -26,6 +26,10 @@ Route::get('/post-index', function () {
     return view('post', ['action' => 'Index']);
 })->middleware(['auth'])->name('post-index');
 
+Route::get('/post-indexjs', function () {
+    return view('post', ['action' => 'Indexjs']);
+})->middleware(['auth'])->name('post-indexjs');
+
 Route::get('/post-create', function () {
     return view('post', ['action' => 'Form']);
 })->middleware(['auth'])->name('post-create');

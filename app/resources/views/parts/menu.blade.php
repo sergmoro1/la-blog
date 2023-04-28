@@ -11,11 +11,15 @@
           <span class="menu-item-label">{{ __('Dashboard') }}</span>
       </x-menu-link>
     </ul>
-    <p class="menu-label">{{ __('Post') }}</p>
+    <p class="menu-label">{{ __('Posts') }}</p>
     <ul class="menu-list">
       <x-menu-link :href="route('post-index')" :active="request()->routeIs('post-index')">
           <span class="icon"><i class="mdi mdi-table"></i></span>
           <span class="menu-item-label">{{ __('Index') }}</span>
+      </x-menu-link>
+      <x-menu-link :href="route('post-indexjs')" :active="request()->routeIs('post-indexjs')">
+          <span class="icon"><i class="mdi mdi-table"></i></span>
+          <span class="menu-item-label">{{ __('Indexjs') }}</span>
       </x-menu-link>
       <x-menu-link :href="route('post-create')" :active="request()->routeIs('post-create')">
           <span class="icon"><i class="mdi mdi-pencil-plus-outline"></i></span>

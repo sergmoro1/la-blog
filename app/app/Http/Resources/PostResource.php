@@ -41,6 +41,11 @@ use App\Http\Resources\TagResource;
  *         @OA\Items(ref="#/components/schemas/TagOnly")
  *     ),
  *     @OA\Property(
+ *         property="Tags_to_str",
+ *         type="string",
+ *         example="news, sport"
+ *     ),
+ *     @OA\Property(
  *         property="created_at",
  *         type="string",
  *         format="date-time",
@@ -57,6 +62,8 @@ use App\Http\Resources\TagResource;
 
 class PostResource extends JsonResource
 {
+    private $tagCollection;
+
     /**
      * Transform the resource into an array.
      *
@@ -65,15 +72,33 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
+        $this->tagCollection = TagOnlyResource::collection($this->tags);
+
         return [
             'id' => $this->id,
             'status' => $this->status,
             'title' => $this->title,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
-            'tags' => TagOnlyResource::collection($this->tags),
+            'tags' => $this->tagCollection,
+            'tags_to_str' => $this->tagsToStr(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    /**
+     * Transform $tags array to string.
+     *
+     * @return string
+     */
+    private function tagsToStr()
+    {
+        $a = [];
+        foreach($this->tagCollection as $tag) {
+            $a[] = $tag['name'];
+        }
+
+        return implode(', ', $a);
     }
 }

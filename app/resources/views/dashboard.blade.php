@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="css"></x-slot>
     <x-slot name="title">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
         <ul>
@@ -19,6 +20,7 @@
         <button class="button light">Button</button>
       </div>
     </x-slot>
+    <x-slot name="scripts"></x-slot>
 
     <div class="grid gap-6 grid-cols-1 md:grid-cols-3 mb-6">
       <div class="card">
