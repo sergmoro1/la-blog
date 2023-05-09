@@ -14,6 +14,7 @@
                 <th>Excerpt</th>
                 <th>Tags</th>
                 <th>Created</th>
+                <th></th>
               </tr>
           </thead>
         </table>

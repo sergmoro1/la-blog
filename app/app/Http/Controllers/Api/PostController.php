@@ -23,15 +23,23 @@ class PostController extends Controller
      *     summary="Get list of posts",
      *     description="Returns list of posts",
      *     @OA\Parameter(
-     *         name="tags[]",
+     *         name="search",
      *         in="query",
-     *         description="tag to filter by",
+     *         description="search string to filter by",
      *         required=false,
      *         @OA\Schema(
-     *             type="array",
-     *             @OA\Items(type="string")
+     *             type="string",
      *         ),
-     *         style="form"
+     *     ),
+     *     @OA\Parameter(
+     *         name="offset",
+     *         in="query",
+     *         description="offset from the beginning of the dataset",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
      *     ),
      *     @OA\Parameter(
      *         name="limit",
@@ -59,14 +67,23 @@ class PostController extends Controller
      */
     public function index(PostDtoRequest $request)
     {
-        if ($request->tags) {
-            $query = Post::whereHas('tags', function (Builder $query) use ($request) {
-                $query->whereIn('name', $request->tags);
-            });
-        } else {
-            $query = Post::with('tags');
+        $query = Post::with('tags');
+        if ($request->search) {
+            $query->whereRaw(
+                'CONCAT(id, status, title, excerpt, created_at) like ?', 
+                "%{$request->search}%"
+            );
+            if($query->count() == 0) {
+                $query = Post::whereHas('tags', function (Builder $query) use ($request) {
+                    $query->where('name', 'like', "%{$request->search}%");
+                });
+            }
         }
-        
+
+        foreach ($request->order as $attr) {
+            $query->orderBy(Post::getOrder()[$attr['column']], $attr['dir']);
+        }
+
         return response()->json(
             new PostCollection($query->paginate($request->limit)),
             200

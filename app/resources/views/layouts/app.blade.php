@@ -9,8 +9,8 @@
         <title>{{ config('app.name') }}</title>
 
         <!-- Scripts -->
-        <link href="{{ url('css/app.css') }}" rel="stylesheet">
         {{ $css }}
+        <link href="{{ url('css/app.css') }}" rel="stylesheet">
         @livewireStyles
     </head>
     <body>

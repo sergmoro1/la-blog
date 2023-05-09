@@ -61,4 +61,19 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class, 'post_tag');
     }
+
+    /**
+     * The attributes that can be sorted.
+     *
+     * @var [column_number => string]
+     */
+     public static function getOrder()
+    {
+        return [
+            0 => 'id', 
+            1 => 'status',
+            2 => 'title',
+            5 => 'created_at',
+        ];
+    }
 }

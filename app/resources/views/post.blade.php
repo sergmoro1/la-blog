@@ -62,14 +62,20 @@
           credentials = 'Basic <?= base64_encode('sergmoro1@ya.ru:password'); ?>';
           $(document).ready(function () {
             $('#data-table').DataTable({
-              ajax: '/api/posts', 
+              serverSide: true,
+              processing: true,
+              paging: true,             
+              ajax: {
+                url: '/api/posts/',
+                type: 'GET',
+              },
               headers: { Authorization: credentials },
               columns: [
                 { data: 'id' },
                 { data: 'status' },
                 { data: 'title' },
-                { data: 'excerpt' },
-                { data: 'tags_to_str'},
+                { data: 'excerpt', orderable: false },
+                { data: 'tags_to_str', orderable: false},
                 { 
                   data: 'created_at',
                   render: function (data, type) {
@@ -78,6 +84,27 @@
                       return date.toLocaleDateString("en-US");
                     }
                     return data;
+                  }
+                },
+                {
+                  render: function (data, type, row) {
+                    if (type === 'display') {
+                      return '<div class="buttons right nowrap">' +
+                        '<a href="/post-show/' + row.id + '">' +
+                          '<button class="button small green" type="button">' +
+                            '<span class="icon"><i class="mdi mdi-eye"></i></span>' +
+                          '</button>' +
+                        '</a>' +
+                        '<button class="button small red --jb-modal" ' + 
+                          'data-target="modal-delete" type="button" ' + 
+                          'onclick="this.setAttribute(\'data-id\', ' + row.id + '); let modal = document.getElementById(\'modal-delete\'); modal.style.display = \'block\';">' +
+                            '<span class="icon">' +
+                              '<i class="mdi mdi-trash-can"></i>' +
+                            '</span>' +
+                        '</button>' +
+                      '</div>';
+                    }
+                    return '';
                   }
                 }
               ]

@@ -23,7 +23,7 @@
               </tr>
           </thead>
 
-          <tbody id="new-page" data-page="{{ $page }}">
+          <tbody id="page" data-page="{{ $page }}">
             @foreach ($posts as $post)
               <tr>
                 <td class="checkbox-cell">

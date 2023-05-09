@@ -36,7 +36,7 @@ class Form extends Component
         
         $posts = Post::paginate(config('app.posts_per_page'));
         
-        return redirect()->to('/post-index?page=' . $posts->lastPage());
+        return redirect()->to('/post-indexjs?page=' . $posts->lastPage());
     }
     
     public function render()

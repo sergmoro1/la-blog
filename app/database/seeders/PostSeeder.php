@@ -16,21 +16,18 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        $post = Post::factory()->count(5)
-            ->has(Tag::factory()
-                ->count(2)
+        for ($i = 1; $i <= 3; $i++) {
+            Post::factory()
+                ->count(10)
                 ->state(new Sequence(
-                    ['name' => 'news'],
-                    ['name' => 'art'],
-                    ['name' => 'animals'],
-                    ['name' => 'food'],
-                    ['name' => 'war'],
-                    ['name' => 'weather'],
-                    ['name' => 'adventure'],
-                    ['name' => 'sport'],
-                    ['name' => 'law'],
-                    ['name' => 'politics'],
+                    ['status' => 'draft'],
+                    ['status' => 'published'],
                 ))
-            )->create();
+                ->hasAttached([
+                    Tag::all()->random(),
+                    Tag::all()->random(),
+                ])
+                ->create();
+        }
     }
 }

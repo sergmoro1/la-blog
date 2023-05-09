@@ -1604,7 +1604,8 @@ progress::-ms-fill {
 	flex-direction: column;
 	overflow: hidden;
 	position: relative;
-	width: 100%
+	width: 100%;
+	margin-top: 200px
 }
 
 @media (min-width:1024px) {

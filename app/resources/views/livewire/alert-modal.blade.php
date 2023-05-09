@@ -9,11 +9,16 @@
       <p>selected entity?</p>
     </section>
     <footer class="modal-card-foot">
-      <button class="button --jb-modal-close">{{ __('Cancel') }}</button>
+      <button class="button --jb-modal-close" onclick="
+        let modal = document.getElementById('modal-delete');
+        modal.style.display = 'none';
+      ">
+        {{ __('Cancel') }}
+      </button>
       <button class="button red --jb-modal-close" 
         onclick="
-          page = document.getElementById('new-page').
-            getAttribute('data-page');
+          let page_tag = document.getElementById('page');
+          let page = page_tag ? page_tag.getAttribute('data-page') : 0;
           id = document.querySelector('[data-id]').
             getAttribute('data-id');
           window.livewire.emit('post-delete', id, page);
