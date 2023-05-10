@@ -81,7 +81,7 @@ class PostController extends Controller
         }
 
         foreach ($request->order as $attr) {
-            $query->orderBy(Post::getOrder()[$attr['column']], $attr['dir']);
+            $query->orderBy(Post::getAttributeNameByPosition($attr['column']), $attr['dir']);
         }
 
         return response()->json(

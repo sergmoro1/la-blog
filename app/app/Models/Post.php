@@ -53,6 +53,18 @@ class Post extends Model
     ];
 
     /**
+     * The attributes, by it's position in a table (datatables js),  that can be sorted.
+     *
+     * @var [position => string]
+     */
+    protected static $sortable = [
+        0 => 'id', 
+        1 => 'status',
+        2 => 'title',
+        5 => 'created_at',
+    ];
+    
+    /**
      * Get all tags of the post.
      *
      * @return mixed
@@ -63,17 +75,14 @@ class Post extends Model
     }
 
     /**
-     * The attributes that can be sorted.
+     * The attribute name that can be sorted.
      *
-     * @var [column_number => string]
+     * @param integer $position
+     * 
+     * @return string
      */
-     public static function getOrder()
+    public static function getAttributeNameByPosition(int $position)
     {
-        return [
-            0 => 'id', 
-            1 => 'status',
-            2 => 'title',
-            5 => 'created_at',
-        ];
+        return self::$sortable[$position];
     }
 }

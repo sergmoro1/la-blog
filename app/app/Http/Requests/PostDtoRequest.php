@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Http\Request;
 
-class PostDtoRequest
+class PostDtoRequest extends DtoRequest
 {
     /**
      * @var integer
@@ -34,18 +34,14 @@ class PostDtoRequest
     public function __construct(Request $request)
     {
         $this->draw = $request->input('draw', 0);
+
         $search = $request->input('search', ['value' => '']);
         $this->search = $search['value'];
 
-        $this->offset = $request->input('start', 0);
+        $this->offset = $this->variant($request, ['offset', 'start'], 0);
+        $this->limit = $this->variant($request, ['limit', 'length'], 15);
 
-        $limit = $request->input('limit', null);
-        if(!$limit) {
-            $limit = $request->input('length', 15);
-        }
-        $this->limit = $limit;
-
-        $this->order = $request->order;
+        $this->order = $request->input('order', []);
 
         $request->merge(['page' => $this->offset / $this->limit + 1]);
     }
