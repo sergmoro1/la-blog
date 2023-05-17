@@ -279,7 +279,7 @@ class PostController extends Controller
         
         return response()->json([
             'success' => true,
-            'message' => "Post ($id) deleted.",
+            'message' => (__("Entity #:id deleted succsessfully", ['id' => $id])),
         ], 200);
    }
 }

@@ -53,7 +53,7 @@ class Post extends Model
     ];
 
     /**
-     * The attributes, by it's position in a table (datatables js),  that can be sorted.
+     * The attributes, by it's positions in a table (datatables js),  that can be sorted.
      *
      * @var [position => string]
      */

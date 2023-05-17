@@ -21,4 +21,4 @@
       </div>
     </div>
   </section>
-  <livewire:alert-modal/>
+  <livewire:alert-modal-js/>

@@ -72,31 +72,32 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->tagCollection = TagOnlyResource::collection($this->tags);
-
         return [
             'id' => $this->id,
             'status' => $this->status,
             'title' => $this->title,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
-            'tags' => $this->tagCollection,
-            'tags_to_str' => $this->tagsToStr(),
+            'tags' => TagOnlyResource::collection($this->tags),
+            'tags_to_str' => $this->collectionToStr($this->tags, 'name'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
     }
 
     /**
-     * Transform $tags array to string.
-     *
+     * Transform collection to string.
+     * 
+     * @param object $collection
+     * @param string $attribute name
+     * 
      * @return string
      */
-    private function tagsToStr()
+    private function collectionToStr($collection, string $attribute): string
     {
         $a = [];
-        foreach($this->tagCollection as $tag) {
-            $a[] = $tag['name'];
+        foreach($collection as $el) {
+            $a[] = $el->$attribute;
         }
 
         return implode(', ', $a);

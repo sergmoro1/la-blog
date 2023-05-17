@@ -57,3 +57,55 @@ Array.from(document.getElementsByClassName('--jb-notification-dismiss')).forEach
     e.currentTarget.closest('.notification').classList.add('hidden');
   });
 });
+
+let luke = (function() {
+  const views = {
+    'buttons': ['view', 'delete']
+  };
+  return {
+    delete: function(url) {
+      let id = document.querySelector('[data-id]').getAttribute('data-id');
+      const request = new XMLHttpRequest();
+      request.responseType = 'json';
+      request.open('DELETE', url + id);
+      request.setRequestHeader('Authorization', app_credentials);
+      request.onload = function() {
+        if (request.status == 200) {
+          $('#data-table').DataTable().draw(false);
+        } else {
+          alert(`Ошибка ${request.status}: ${request.statusText}`);
+        }
+      };
+      request.send();
+    },
+    actions: function(list, id) {
+      let html = '';
+      for (let action of list) {
+        html += this.widgets[this.views.buttons.indexOf(action)](id);
+      }
+      return `<div class="buttons right nowrap">${html}</div>`;
+    },
+    widgets: [
+      function(id) // button view
+      {
+        return `<a href="/post-show/${id}">
+            <button class="button small green" type="button">
+              <span class="icon"><i class="mdi mdi-eye"></i></span>
+            </button>
+          </a>`;
+      },
+      function(id) // button delete
+      {
+        return `<button class="button small red --jb-modal"  
+            data-target="modal-delete" type="button" 
+            onclick="this.setAttribute('data-id', ${id}); 
+              let modal = document.getElementById('modal-delete'); 
+              modal.classList.add('active');">
+              <span class="icon">
+                <i class="mdi mdi-trash-can"></i>
+              </span>
+          </button>`;
+      }
+    ]
+  };
+}());

@@ -34,6 +34,7 @@
                 @include('parts.footer')
             </footer>
         </div>
+        <script>var app_credentials = 'Basic <?= config('app.credensials.basic'); ?>';</script>
         {{ $scripts }}
         <script src="/js/main.js"></script>
         <script src="/js/app.js"></script>

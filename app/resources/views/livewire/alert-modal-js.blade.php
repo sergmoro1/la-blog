@@ -15,14 +15,7 @@
       ">
         {{ __('Cancel') }}
       </button>
-      <button class="button red --jb-modal-close" 
-        onclick="
-          let page_tag = document.getElementById('page');
-          let page = page_tag ? page_tag.getAttribute('data-page') : 0;
-          id = document.querySelector('[data-id]').
-            getAttribute('data-id');
-          window.livewire.emit('post-delete', id, page);
-        ">
+      <button class="button red --jb-modal-close" onclick="luke.delete('api/posts/');">
         {{ __('Delete') }}
       </button>
     </footer>

@@ -27,7 +27,7 @@ $(document).ready(function () {
       {
         render: function (data, type, row) {
           if (type === 'display') {
-            return luke.actions(['view', 'delete'], row.id);
+            return luke.buttons(['view', 'delete'], row.id);
           }
           return '';
         }

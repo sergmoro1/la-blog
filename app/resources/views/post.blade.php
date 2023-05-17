@@ -58,59 +58,7 @@
       @if ($action == 'Indexjs')
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-        <script>
-          credentials = 'Basic <?= base64_encode('sergmoro1@ya.ru:password'); ?>';
-          $(document).ready(function () {
-            $('#data-table').DataTable({
-              serverSide: true,
-              processing: true,
-              paging: true,             
-              ajax: {
-                url: '/api/posts/',
-                type: 'GET',
-              },
-              headers: { Authorization: credentials },
-              columns: [
-                { data: 'id' },
-                { data: 'status' },
-                { data: 'title' },
-                { data: 'excerpt', orderable: false },
-                { data: 'tags_to_str', orderable: false},
-                { 
-                  data: 'created_at',
-                  render: function (data, type) {
-                    if (type === 'display') {
-                      date = new Date(data);
-                      return date.toLocaleDateString("en-US");
-                    }
-                    return data;
-                  }
-                },
-                {
-                  render: function (data, type, row) {
-                    if (type === 'display') {
-                      return '<div class="buttons right nowrap">' +
-                        '<a href="/post-show/' + row.id + '">' +
-                          '<button class="button small green" type="button">' +
-                            '<span class="icon"><i class="mdi mdi-eye"></i></span>' +
-                          '</button>' +
-                        '</a>' +
-                        '<button class="button small red --jb-modal" ' + 
-                          'data-target="modal-delete" type="button" ' + 
-                          'onclick="this.setAttribute(\'data-id\', ' + row.id + '); let modal = document.getElementById(\'modal-delete\'); modal.style.display = \'block\';">' +
-                            '<span class="icon">' +
-                              '<i class="mdi mdi-trash-can"></i>' +
-                            '</span>' +
-                        '</button>' +
-                      '</div>';
-                    }
-                    return '';
-                  }
-                }
-              ]
-            });
-          });
-        </script>
+        <script src="/js/post/index.js"></script>
       @endif
       @if ($action == 'Form')
         <script src="/js/select.js"></script>
