@@ -17,7 +17,7 @@ class BasicAuth
      *
      * @return void
      */
-    public function setKey(string $email, string $password): void
+    public static function setKey(string $email, string $password): void
     {
         // Create user
         User::factory()->create(['email' => $email]);
@@ -30,7 +30,7 @@ class BasicAuth
      *
      * @return string
      */
-    public function getKey(): string
+    public static function getKey(): string
     {
         return self::$basic_auth_key;
     }

@@ -40,7 +40,10 @@ class DTjsDtoRequest
         $this->draw = $request->input('draw', 0);
 
         $search = $request->input('search', ['value' => '']);
-        $this->search = $search['value'];
+        if (is_array($search))
+            $this->search = $search['value'];
+        else 
+            $this->search = $search;
 
         $this->offset = $this->variant($request, ['offset', 'start'], 0);
         $this->limit = $this->variant($request, ['limit', 'length'], 15);

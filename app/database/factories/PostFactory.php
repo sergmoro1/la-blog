@@ -14,11 +14,14 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $statuses = [Post::STATUS_DRAFT, Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
+        $date = $this->faker->dateTimeBetween($startDate = '-6 month', $endDate = '-1 month');
         return [
-            'status' => Post::STATUS_DRAFT,
+            'status' => $statuses[rand(0, 2)],
             'title' => $this->faker->sentence(),
             'excerpt' => $this->faker->paragraph(),
             'content' => $this->faker->realText(),
+            'created_at' => $date,
         ];
     }
 }

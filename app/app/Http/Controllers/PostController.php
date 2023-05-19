@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use app\models\Post;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
     /**
-     * Показать форму для создания нового сообщения в блоге.
+     * Show the form for creating new specified resource.
      *
      * @return View
      */

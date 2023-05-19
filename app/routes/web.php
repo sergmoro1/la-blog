@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 use App\Models\Post;
 
 /*
@@ -37,6 +38,11 @@ Route::get('/post-create', function () {
 Route::get('/post-show/{id}', function ($id) {
     return view('post', ['post_id' => $id, 'action' => 'Show']);
 })->middleware(['auth'])->name('post-show');
+
+Route::get('/post-show-modal/{id}', function ($id) {
+    $post = Post::FindOrFail($id);
+    return view('post.modal.show', ['post' => $post]);
+})->middleware(['auth'])->name('post-show-modal');
 
 Route::post('/post-delete/{id}', 
     [App\Http\Livewire\Post\Index::class, 'delete']

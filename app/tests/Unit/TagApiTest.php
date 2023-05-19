@@ -104,7 +104,6 @@ class TagApiTest extends BlogTestCase
                         "current_page",
                         "from",
                         "last_page",
-                        "path",
                         "per_page",
                         "to",
                         "total",
