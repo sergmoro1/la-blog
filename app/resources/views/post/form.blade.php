@@ -54,7 +54,7 @@
           <label class="label">{{ __('Tags') }}</label>
           <div class="control">
             <div class="select">
-              <select id="select-tags" name="tags[]" id="tags" multiple>
+              <select id="select-tags" name="tags[]" multiple>
                 @foreach ($post->tags as $tag)
                   <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>
                 @endforeach

@@ -19,7 +19,7 @@ class UserController extends Controller
      * @OA\Get(
      *     path="/api/users",
      *     operationId="indexUser",
-     *     tags={"Userss"},
+     *     tags={"Users"},
      *     summary="Get list of users",
      *     description="Returns list of users",
      *     @OA\Parameter(
