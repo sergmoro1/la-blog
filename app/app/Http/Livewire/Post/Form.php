@@ -13,8 +13,7 @@ class Form extends Component
     public $title;
     public $excerpt;
     public $content;
-
-    public $values;
+    public $tags;
  
     protected function rules()
     {
@@ -23,7 +22,6 @@ class Form extends Component
             'title' => 'required|max:255',
             'excerpt' => 'required',
             'content' => 'required',
-            'values' => 'max:255',
         ];
     }
 
@@ -41,7 +39,7 @@ class Form extends Component
     
     public function render()
     {
-        $this->tags = Tag::all();
-        return view('livewire.post.form', ['tags' => $this->tags]);
+        $this->status = Post::STATUS_DRAFT;
+        return view('livewire.post.form');
     }
 }

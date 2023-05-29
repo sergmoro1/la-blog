@@ -4,11 +4,12 @@
 --}}
 <x-app-layout>
     <x-slot name="css">
-      @if ($action == 'Indexjs')
-        <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+      @if ($action == 'index')
+        <link href="/vendor/DataTables/datatables.min.css" rel="stylesheet">
       @endif
-      @if ($action == 'Form')
-        <link href="{{ url('css/select.css') }}" rel="stylesheet">
+      @if (in_array($action, ['create', 'edit']))
+        <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
       @endif
     </x-slot>
     <x-slot name="title">
@@ -22,21 +23,15 @@
     <x-slot name="hero">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
         <h1 class="title">
-          @if ($action == 'Index')
+          @if ($action == 'index')
             {{ __('A list of posts') }}
-          @elseif ($action == 'Add')
+          @elseif ($action == 'create')
             {{ __('Add') }} {{ __('an awesome post') }}
           @else
-            {{ __('Read') }} {{ __('an awesome post') }}
+            {{ $post->title }}
           @endif
         </h1>
-        @if ($action == 'Index')
-          <a href="/post-create" class="button blue">
-            <span class="icon"><i class="mdi mdi-plus"></i></span>
-            <span>Add post</span>
-          </a>
-        @endif
-        @if ($action == 'Indexjs')
+        @if ($action == 'index')
           <a href="/post-create" class="button blue">
             <span class="icon"><i class="mdi mdi-plus"></i></span>
             <span>Add post</span>
@@ -55,26 +50,23 @@
         @endif
     </x-slot>
     <x-slot name="scripts">
-      @if ($action == 'Indexjs')
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+      @if ($action == 'index')
+        <script src="/vendor/jquery/jquery-3.7.0.min.js"></script>
+        <script src="/vendor/DataTables/datatables.min.js"></script>
         <script src="/js/post/index.js"></script>
       @endif
-      @if ($action == 'Form')
-        <script src="/js/select.js"></script>
+      @if (in_array($action, ['create', 'edit']))
+        <script src="/vendor/jquery/jquery-3.7.0.min.js"></script>
+        <script src="/vendor/select2/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+        <script src="/js/post/form.js"></script>
       @endif
     </x-slot>
-    @if ($action == 'Index')
-      <livewire:post.index/>
+    @if ($action == 'index')
+      @include('post.index')
     @endif
-    @if ($action == 'Indexjs')
-      <livewire:post.indexjs/>
-    @endif
-    @if ($action == "Show")
-      <livewire:post.show :post_id="$post_id"/>
-    @endif
-    @if ($action == "Form")
-      <livewire:post.form/>
+    @if (in_array($action, ["create", "edit"]))
+      @include('post.form')
     @endif
 </x-app-layout>
 

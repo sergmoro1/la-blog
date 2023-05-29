@@ -60,7 +60,7 @@ Array.from(document.getElementsByClassName('--jb-notification-dismiss')).forEach
 
 let luke = (function () {
   const views = {
-    'buttons': ['view', 'delete']
+    'buttons': ['view', 'edit', 'delete']
   };
   function createRequest(type, url, responseType = '') { 
     let request = new XMLHttpRequest();
@@ -107,7 +107,7 @@ let luke = (function () {
     },
     widgets: {
       buttons: [
-        function (id) // button view
+        function (id) // view
         {
           return `<a onclick="luke.get('post-show-modal', ${id});">
               <button class="button small green" type="button">
@@ -115,7 +115,15 @@ let luke = (function () {
               </button>
             </a>`;
         },
-        function (id) // button delete
+        function (id) // edit
+        {
+          return `<a href="/post-edit/${id}">
+              <button class="button small blue" type="button">
+                <span class="icon"><i class="mdi mdi-pencil"></i></span>
+              </button>
+            </a>`;
+        },
+        function (id) // delete
         {
           return `<button class="button small red --jb-modal"  
               data-target="modal-delete" type="button" 

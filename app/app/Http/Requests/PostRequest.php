@@ -34,7 +34,7 @@ class PostRequest extends FormRequest
             'content' => 'required',
         ];
     }
-
+/*
     protected function failedValidation(Validator $validator): void
     {
         $jsonResponse = response()->json([
@@ -44,4 +44,5 @@ class PostRequest extends FormRequest
 
         throw new HttpResponseException($jsonResponse);
     }
+*/
 }

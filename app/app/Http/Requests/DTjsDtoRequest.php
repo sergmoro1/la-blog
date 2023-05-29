@@ -62,7 +62,7 @@ class DTjsDtoRequest
      * 
      * @return mixed
      */
-    protected function variant(Request $request, array $variants, mixed $default): mixed
+    protected function variant(Request $request, array $variants, $default)
     {
         $i = 0;
         $count = count($variants);

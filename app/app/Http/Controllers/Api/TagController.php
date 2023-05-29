@@ -59,7 +59,7 @@ class TagController extends Controller
     {
         if ($request->search) {
             $query = Tag::whereHas('posts', function (Builder $query) use ($request) {
-                $query->where('name', 'like', '%'.$request->tags.'%');
+                $query->where('name', 'like', '%'.$request->search.'%');
             });
         } else {
             $query = Tag::with('posts');

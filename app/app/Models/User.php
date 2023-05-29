@@ -41,4 +41,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * Posts in which the user was specified as the author.
+     *
+     * @return mixed
+     */
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'post_user');
+    }
 }

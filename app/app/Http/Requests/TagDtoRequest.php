@@ -18,7 +18,7 @@ class TagDtoRequest
     
     public function __construct(Request $request)
     {
-        $this->search = $request->input('search') ?? '';
-        $this->limit = $request->input('limit') ?? 15;
+        $this->search = $request->input('search', '');
+        $this->limit = $request->input('limit', 15);
     }
 }

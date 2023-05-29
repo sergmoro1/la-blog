@@ -39,7 +39,7 @@ class Tag extends Model
     ];
     
     /**
-     * Статьи, в которых был указан тег.
+     * Posts in which the tag was specified.
      *
      * @return mixed
      */

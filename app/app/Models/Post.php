@@ -75,6 +75,16 @@ class Post extends Model
     }
 
     /**
+     * Get all authors of the post.
+     *
+     * @return mixed
+     */
+    public function authors()
+    {
+        return $this->belongsToMany(User::class, 'post_user');
+    }
+
+    /**
      * The attribute name that can be sorted.
      *
      * @param integer $position

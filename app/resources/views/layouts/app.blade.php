@@ -11,7 +11,6 @@
         <!-- Scripts -->
         {{ $css }}
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
-        @livewireStyles
     </head>
     <body>
         <div id="app">
@@ -34,11 +33,10 @@
                 @include('parts.footer')
             </footer>
         </div>
-        <script>var app_credentials = '<?= config('app.credensials.basic'); ?>';</script>
+        <script>var app_credentials = '<?= config('app.credentials.basic'); ?>';</script>
         {{ $scripts }}
         <script src="/js/main.js"></script>
         <script src="/js/app.js"></script>
-        @livewireScripts
         <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
     </body>
 </html>
