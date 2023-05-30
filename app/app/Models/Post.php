@@ -79,7 +79,7 @@ class Post extends Model
      *
      * @return mixed
      */
-    public function authors()
+    public function users()
     {
         return $this->belongsToMany(User::class, 'post_user');
     }

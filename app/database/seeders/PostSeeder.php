@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
 
 class PostSeeder extends Seeder
 {
@@ -22,6 +23,9 @@ class PostSeeder extends Seeder
                 ->hasAttached([
                     Tag::all()->random(),
                     Tag::all()->random(),
+                ])
+                ->hasAttached([
+                    User::all()->random(),
                 ])
                 ->create();
         }

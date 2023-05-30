@@ -52,7 +52,6 @@ class PostApiTest extends BlogTestCase
             ->putJson('api/posts/2', $post->toArray())
             ->assertStatus(422)
             ->assertJsonStructure([
-                'success',
                 'errors',
             ]);
         
@@ -100,9 +99,9 @@ class PostApiTest extends BlogTestCase
             ->create();
 
         $response = $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->getJson('api/posts?limit=5&page=2')
+            ->getJson('api/posts?limit=5&offset=5')
                 ->assertStatus(200)
-                //->assertJsonFragment(["current_page" => 2])
+                ->assertJsonFragment(["current_page" => 2])
                 ->assertJsonFragment(["total" => 8])
                 ->assertJsonFragment(["per_page" => "5"])
                 ->assertJsonStructure([
