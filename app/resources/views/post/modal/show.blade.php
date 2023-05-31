@@ -3,7 +3,8 @@
   <header class="modal-card-head">
     <p class="modal-card-title space-x-4">
         <span class="text-xs">ID: {{ $post->id }}</span>, 
-        <span class="text-xs">Created at: {{ $post->created_at}}</span>
+        <span class="text-xs">{{ __('Created at') }}: {{ $post->created_at}}</span>,
+        <span class="text-xs">{{ __('Author') }}: {{ $post->user->name }}</span>
     </p>
   </header>
   <section class="modal-card-body">

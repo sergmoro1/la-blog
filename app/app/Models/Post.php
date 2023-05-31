@@ -9,18 +9,19 @@ use Illuminate\Http\Request;
 
 /**
  * Post model class
- * @author   Sergey Morozov <sergmoro1@ya.ru>
- * @license  https://mit-license.org/ MIT
  *
- * @param integer  $id
- * @param enum     $status
- * @param string   $title
- * @param text     $excerpt
- * @param longText $content
- * @param integer  $created_at
- * @param integer  $updated_at
+ * @param integer   $id
+ * @param integer   $user_id
+ * @param enum      $status
+ * @param string    $title
+ * @param text      $excerpt
+ * @param longText  $content
+ * @param timestamp $created_at
+ * @param timestamp $updated_at
  *
- * @property Tags
+ * @property User $user
+ * @property Tag[] $tags
+ * @property Like[] $likes
  */
 class Post extends Model
 {
@@ -75,13 +76,23 @@ class Post extends Model
     }
 
     /**
-     * Get all authors of the post.
+     * Get owner of the post.
      *
      * @return mixed
      */
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'post_user');
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get likes of the post.
+     *
+     * @return mixed
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 
     /**

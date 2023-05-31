@@ -24,9 +24,6 @@ class PostSeeder extends Seeder
                     Tag::all()->random(),
                     Tag::all()->random(),
                 ])
-                ->hasAttached([
-                    User::all()->random(),
-                ])
                 ->create();
         }
     }

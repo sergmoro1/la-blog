@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Tag model class
  *
- * @param integer $id
- * @param string  $name
- * @param integer $created_at
- * @param integer $updated_at
+ * @param integer   $id
+ * @param string    $name
+ * @param timestamp $created_at
  *
  * @property Posts
  */

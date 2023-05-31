@@ -7,7 +7,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Post;
 
+/**
+ * User model class
+ *
+ * @param integer   $id
+ * @param string    $name
+ * @param string    $email
+ * @param timestamp $email_verified_at
+ * @param string    $password
+ * @param string    $remember_token
+ * @param timestamp $created_at
+ * @param timestamp $updated_at
+ *
+ * @property Post[] $posts
+ * @property Like[] $likes
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -42,14 +58,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     /**
-     * Posts in which the user was specified as the author.
+     * Get all posts that the user posted.
      *
      * @return mixed
      */
     public function posts()
     {
-        return $this->belongsToMany(Post::class, 'post_user');
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get likes of the user.
+     *
+     * @return mixed
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }
