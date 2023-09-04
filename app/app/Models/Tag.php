@@ -12,18 +12,20 @@ use Illuminate\Database\Eloquent\Model;
  * @param string    $name
  * @param timestamp $created_at
  *
- * @property Posts
+ * @property Posts[]
  */
 class Tag extends Model
 {
     use HasFactory;
+    
+    const UPDATED_AT = null; 
 
      /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-   protected $fillable= [
+   protected $fillable = [
         'name',
     ];
 
@@ -34,7 +36,6 @@ class Tag extends Model
      */
     protected $hidden = [
         'created_at', 
-        'updated_at',
     ];
     
     /**
@@ -45,5 +46,12 @@ class Tag extends Model
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'post_tag');
+    }
+
+    /**
+     * Rewrite method to disable updated_at
+     */
+    public function setUpdatedAtAttribute($value)
+    {
     }
 }

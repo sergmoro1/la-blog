@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   $('#select-tags').select2(
-    init_select2('/api/tags', "<?= __('Select tags') ?>")
+    init_select2('/api/tags', 'Select tags')
   );
   var simplemde = new SimpleMDE({ 
     element: document.getElementById("content")

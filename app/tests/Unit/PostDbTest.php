@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use App\Models\Post;
 use App\Models\Tag;
 use Tests\TestCase;
@@ -17,6 +18,7 @@ class PostDbTest extends TestCase
      */
     public function test_post_creation()
     {
+        $user = User::factory(10)->create();
         // Create a post with two tags
         $post = Post::factory()
             ->has(Tag::factory()
@@ -51,5 +53,6 @@ class PostDbTest extends TestCase
         DB::table('post_tag')->delete();
         DB::table('tags')->delete();
         DB::table('posts')->delete();
+        DB::table('users')->delete();
     }
 }

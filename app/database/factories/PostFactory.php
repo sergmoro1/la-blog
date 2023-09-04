@@ -16,6 +16,7 @@ class PostFactory extends Factory
     public function definition()
     {
         $users = User::select('id')->limit(10)->get()->toArray();
+
         $statuses = [Post::STATUS_DRAFT, Post::STATUS_PUBLISHED, Post::STATUS_ARCHIVED];
         $date = $this->faker->dateTimeBetween($startDate = '-6 month', $endDate = '-1 month');
         return [

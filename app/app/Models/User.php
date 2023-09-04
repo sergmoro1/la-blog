@@ -67,14 +67,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-
-    /**
-     * Get likes of the user.
-     *
-     * @return mixed
-     */
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
-    }
 }

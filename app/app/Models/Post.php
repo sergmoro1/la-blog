@@ -37,6 +37,7 @@ class Post extends Model
      * @var string[]
      */
     protected $fillable= [
+        'user_id',
         'status',
         'title',
         'excerpt',
@@ -56,7 +57,7 @@ class Post extends Model
     /**
      * The attributes, by it's positions in a table (datatables js),  that can be sorted.
      *
-     * @var [position => string]
+     * @var array [position => string]
      */
     protected static $sortable = [
         0 => 'id', 
@@ -66,17 +67,7 @@ class Post extends Model
     ];
     
     /**
-     * Get all tags of the post.
-     *
-     * @return mixed
-     */
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class, 'post_tag');
-    }
-
-    /**
-     * Get owner of the post.
+     * Get the owner of this post.
      *
      * @return mixed
      */
@@ -86,13 +77,13 @@ class Post extends Model
     }
 
     /**
-     * Get likes of the post.
+     * Get all tags of the post.
      *
      * @return mixed
      */
-    public function likes()
+    public function tags()
     {
-        return $this->hasMany(Like::class);
+        return $this->belongsToMany(Tag::class, 'post_tag');
     }
 
     /**
@@ -105,5 +96,15 @@ class Post extends Model
     public static function getAttributeNameByPosition(int $position)
     {
         return self::$sortable[$position];
+    }
+
+    /**
+     * Get the likes of this post.
+     *
+     * @return mixed
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }
