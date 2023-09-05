@@ -36,7 +36,7 @@ class PostDbTest extends TestCase
         // Check if there are two tags in the table.
         $this->assertDatabaseCount('tags', 2);
         // Check the number of links between the post and the tags.
-        $this->assertDatabaseCount('post_tag', 2);
+        $this->assertDatabaseCount('post_tags', 2);
 
         // Relations
         // Check a count of tags.
@@ -50,7 +50,7 @@ class PostDbTest extends TestCase
 
     protected function tearDown(): void
     {
-        DB::table('post_tag')->delete();
+        DB::table('post_tags')->delete();
         DB::table('tags')->delete();
         DB::table('posts')->delete();
         DB::table('users')->delete();

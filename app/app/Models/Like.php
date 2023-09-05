@@ -18,6 +18,8 @@ class Like extends Model
 {
     use HasFactory;
 
+    const UPDATED_AT = null; 
+
      /**
      * The attributes that are mass assignable.
      *
@@ -36,4 +38,11 @@ class Like extends Model
     protected $hidden = [
         'created_at', 
     ];
+
+    /**
+     * Rewrite method to disable updated_at
+     */
+    public function setUpdatedAtAttribute($value)
+    {
+    }
 }

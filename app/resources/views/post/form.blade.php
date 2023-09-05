@@ -9,7 +9,7 @@
         <div class="field">
           <label class="label">Title</label>
           <div class="control">
-            <input class="input" type="text" name="title" id='title' 
+            <input class="input" type="text" name="title" id="title" 
               placeholder="{{ __('Briefly about the content') }}" 
               value="{{ old('title', $post->title) }}"
             >

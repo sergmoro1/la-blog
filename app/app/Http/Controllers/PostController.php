@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
+use App\Models\PostTag;
 use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
@@ -43,15 +44,16 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $validated = $request->validated();
-        
+        $validated['user_id'] = auth()->user()->id;
+
         DB::transaction(function() use ($request, $validated) {
             $post = Post::create($validated);
-
+ 
             $links = collect($request->tags)->map(function($tag_id) use ($post) {
                 return ['post_id' => $post->id, 'tag_id' => $tag_id];
             });
 
-            DB::table('post_tag')->insert($links->toArray());
+            PostTag::insert($links->toArray());
 
             session()->flash('success', __('Entity was successfully added'));
         });
@@ -86,35 +88,8 @@ class PostController extends Controller
             $post = Post::find($id);
             $post->update($validated);
 
-            $old_tags_collection = DB::table('post_tag')
-                ->select('tag_id')
-                ->where(['post_id' => $post->id])
-                ->get();
-            
-            $old_tags = $old_tags_collection->map(function($item) {
-                return $item->tag_id;
-            })->toArray();
-            
-            // added links
-            $diff = array_diff($request->tags, $old_tags);
-            if ($diff) {
-                $added_links = array_map(function($tag_id) use ($post) {
-                    return ['post_id' => $post->id, 'tag_id' => $tag_id];
-                }, $diff);
-                DB::table('post_tag')->insert($added_links);
-            }
-            
-            // deleted links
-            $diff = array_diff($old_tags, $request->tags);
-            if ($diff) {
-                foreach($diff as $tag_id) {
-                    DB::table('post_tag')->where([
-                        'post_id' => $post->id,
-                        'tag_id' => $tag_id
-                    ])->delete();
-                }
-            }
-        
+            PostTag::update_tags($post->id, $request);
+
             session()->flash('success', __('Entity was successfully added or updated'));
         });
         
