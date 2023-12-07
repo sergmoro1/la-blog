@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,10 @@ Route::group(['middleware' => 'auth.basic.once'], function () {
     Route::resources([
         'tags' => TagController::class,
     ]);
-});
-
-Route::group(['middleware' => 'auth.basic.once'], function () {
     Route::resources([
         'posts' => PostController::class,
+    ]);
+    Route::resources([
+        'images' => ImageController::class,
     ]);
 });

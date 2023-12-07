@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\HasPageChecker;
+use App\Traits\HasStorage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * Post model class
@@ -22,10 +24,11 @@ use Illuminate\Http\Request;
  * @property User $user
  * @property Tag[] $tags
  * @property Like[] $likes
+ * @property Image[] $images
  */
 class Post extends Model
 {
-    use HasFactory, HasPageChecker;
+    use HasFactory, HasPageChecker, HasStorage;
     
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PUBLISHED = 'published';
@@ -64,6 +67,18 @@ class Post extends Model
         1 => 'status',
         2 => 'title',
         5 => 'created_at',
+    ];
+
+    /**
+     * Storage params. Seperately = false - all pictures saved in $path subdirectory, 
+     * = true - pictures for the model saved in a seperate {$path}/{$id} subdirectory.
+     * 
+     * @var array
+     */    
+    protected $storage = [
+        'disk' => 'public',
+        'path' => 'post',
+        'seperatly' => true,
     ];
     
     /**
@@ -106,5 +121,23 @@ class Post extends Model
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Get the images of this post.
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    /**
+     * Convert markdown to html
+     *
+     * @return string
+     */
+    public function markdownToHtml()
+    {
+        return Str::markdown($this->content);
     }
 }

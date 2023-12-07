@@ -7,12 +7,15 @@ COPY ./ /app
 ENV TZ "Europe/Moscow"
 
 RUN apt-get update && \
-    apt-get install -y libpq-dev zlib1g-dev libzip-dev zip libxml2-dev && \
+    apt-get install -y libpq-dev zlib1g-dev libzip-dev zip libxml2-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev && \
     docker-php-ext-install mysqli pdo pdo_mysql && \
     apt-get clean && \
     apt-get autoclean && \
     apt-get autoremove -y --force-yes && \
     rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
 
 RUN apt-get update && apt-get install -y netcat
 

@@ -111,7 +111,21 @@ summary {
 	display: list-item
 }
 
-blockquote,
+blockquote {
+  font-style: normal;
+  font-size: 16px;
+  margin-left: 1.5em;
+  font-family: Consolas, "Times New Roman", Verdana;
+  border-left: 4px solid #CCC;
+  padding-left: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+blockquote ul {
+	list-style: none;
+}
+
 dd,
 dl,
 figure,
@@ -142,11 +156,18 @@ fieldset {
 	padding: 0
 }
 
+ol {
+	list-style: decimal outside;
+}
+
+ul {
+	list-style: disc outside;
+}
+
 ol,
 ul {
-	list-style: none;
-	margin: 0;
-	padding: 0
+	margin: 1.5em;
+	padding: 4px
 }
 
 html {
@@ -216,10 +237,14 @@ h6 {
 	font-weight: inherit
 }
 
-a {
-	color: inherit;
-	text-decoration: inherit
+a:link {
+	color: #0000EE;
+	text-decoration: inherit;
 }
+a:visited { color: #551A8B; } 
+a:hover {
+    text-decoration: underline;
+} 
 
 button,
 input,

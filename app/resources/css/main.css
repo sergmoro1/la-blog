@@ -141,7 +141,7 @@ fieldset {
 
 ol,
 ul {
-	list-style: none;
+	list-style: circle outside;
 	margin: 0;
 	padding: 0
 }

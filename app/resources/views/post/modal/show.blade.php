@@ -4,7 +4,7 @@
     <p class="modal-card-title space-x-4">
       <span class="text-xs">ID: {{ $post->id }}</span>, 
       <span class="text-xs">{{ __('Created at') }}: {{ $post->created_at}}</span>,
-      <span class="text-xs">{{ __('Author') }}: {{ $post->user->name }}</span>,
+      <span class="text-xs">{{ __('Author') }}: {{ $post->user->name }}</span>
     </p>
   </header>
   <section class="modal-card-body">
@@ -16,7 +16,7 @@
           {{ $post->excerpt }}
       </div>
       <div class="basis-1 rounded text-l font-light mb-20">
-          {{ $post->content }}
+          {!! $post->markdownToHtml() !!}
       </div>
       <div class="text-xs font-medium text-gray-600 grid grid-cols-2">
         <div class="col-span-1">
