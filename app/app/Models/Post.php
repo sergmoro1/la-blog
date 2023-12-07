@@ -70,18 +70,6 @@ class Post extends Model
     ];
 
     /**
-     * Storage params. Seperately = false - all pictures saved in $path subdirectory, 
-     * = true - pictures for the model saved in a seperate {$path}/{$id} subdirectory.
-     * 
-     * @var array
-     */    
-    protected $storage = [
-        'disk' => 'public',
-        'path' => 'post',
-        'seperatly' => true,
-    ];
-    
-    /**
      * Get the owner of this post.
      *
      * @return mixed
