@@ -22,40 +22,44 @@ class PostApiTest extends BlogTestCase
         BasicAuth::setKey('sergmoro1@ya.ru', 'password');
 
         // Make a post
-        $post = Post::factory()->make(['id' => 1]);
+        $post = Post::factory()->create(['id' => 1]);
         
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->postJson('api/posts', $post->toArray())
             ->assertStatus(200);
+        
+        return 1;
     }
 
     /**
      * Api post update test.
      * 
+     * @depends test_api_post_store
+     * @param int $post_id
      * @return void
      */
-    public function test_api_post_update()
+    public function test_api_post_update(int $post_id)
     {
-        // Create a post
-        $post = Post::factory()->create(['id' => 2]);
+        // Find a post
+        $post = Post::find($post_id);
         // Change title
         $post->title = 'New title';
 
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->putJson('api/posts/2', $post->toArray())
+            ->putJson('api/posts/' . $post_id, $post->toArray())
             ->assertStatus(200);
         
         // Set empty excerpt
         $post->excerpt = '';
         
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->putJson('api/posts/2', $post->toArray())
+            ->putJson('api/posts/1', $post->toArray())
             ->assertStatus(422)
             ->assertJsonStructure([
                 'errors',
             ]);
         
-        return 2;
+        return $post_id;
     }
     
     /**
