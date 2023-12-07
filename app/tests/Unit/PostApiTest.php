@@ -22,13 +22,15 @@ class PostApiTest extends BlogTestCase
         BasicAuth::setKey('sergmoro1@ya.ru', 'password');
 
         // Make a post
-        $post = Post::factory()->create(['id' => 1]);
+        $post = Post::factory()->make(['title' => 'test']);
         
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->postJson('api/posts', $post->toArray())
             ->assertStatus(200);
+
+        $post = Post::where(['title' => 'test'])->first();
         
-        return 1;
+        return $post->id;
     }
 
     /**
@@ -106,7 +108,7 @@ class PostApiTest extends BlogTestCase
             ->getJson('api/posts?limit=5&offset=5')
                 ->assertStatus(200)
                 ->assertJsonFragment(["current_page" => 2])
-                ->assertJsonFragment(["total" => 8])
+                ->assertJsonFragment(["total" => 7])
                 ->assertJsonFragment(["per_page" => "5"])
                 ->assertJsonStructure([
                     'success',
