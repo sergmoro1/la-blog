@@ -22,41 +22,47 @@ class TagApiTest extends BlogTestCase
         BasicAuth::setKey('sergmoro1@ya.ru', 'password');
 
         // Make a tag
-        $tag = Tag::factory()->make(['id' => 1]);
+        $tag = Tag::factory()->make(['name' => 'test']);
         
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
             ->postJson('api/tags', $tag->toArray())
             ->assertStatus(200);
+    
+        $tag = Tag::where(['name' => 'test'])->first();
+        
+        return $tag->id;
     }
 
     /**
      * Api tag update test.
      * 
+     * @depends test_api_tag_store
+     * @param int $tag_id
      * @return void
      */
-    public function test_api_tag_update()
+    public function test_api_tag_update(int $tag_id)
     {
-        // Create a tag
-        $tag = Tag::factory()->create(['id' => 2]);
+        // Find a tag
+        $tag = Tag::find($tag_id);
         // Change tag name
         $tag->name = 'news';
 
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->putJson('api/tags/2', $tag->toArray())
+            ->putJson('api/tags/' . $tag_id, $tag->toArray())
             ->assertStatus(200);
         
         // Set empty name
         $tag->name = '';
         
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->putJson('api/tags/2', $tag->toArray())
+            ->putJson('api/tags/' . $tag_id, $tag->toArray())
             ->assertStatus(422)
             ->assertJsonStructure([
                 'success',
                 'errors',
             ]);
         
-        return 2;
+        return $tag_id;
     }
 
     /**
@@ -90,7 +96,7 @@ class TagApiTest extends BlogTestCase
             ->getJson('api/tags?limit=5&page=2')
                 ->assertStatus(200)
                 ->assertJsonFragment(["current_page" => 2])
-                ->assertJsonFragment(["total" => 8])
+                ->assertJsonFragment(["total" => 7])
                 ->assertJsonFragment(["per_page" => "5"])
                 ->assertJsonStructure([
                     'success',
