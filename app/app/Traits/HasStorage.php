@@ -40,7 +40,7 @@ trait HasStorage
     public function getFullPath()
     {
         if (!$this->storage['path']) { 
-            $this->storage['path'] = strtolower(class_basename(get_class($this))) . 's';
+            $this->storage['path'] = strtolower(class_basename(get_class($this)));
         }
         return $this->storage['path'] . ($this->storage['seperatly'] ? '/' . $this->id : '');
     }

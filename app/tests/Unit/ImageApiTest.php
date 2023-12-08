@@ -25,7 +25,7 @@ class ImageApiTest extends BlogTestCase
         // Create Basic Api key
         BasicAuth::setKey('sergmoro1@ya.ru', 'password');
 
-        // Make a post
+        // Create users
         $user = User::factory(10)->create();
         // Create a post with two tags
         $post = Post::factory()
@@ -48,8 +48,6 @@ class ImageApiTest extends BlogTestCase
             ])->assertJsonFragment(['success' => 1]);
         
         Storage::disk($post->getDisk())->assertExists($post->getFullPath() . '/' . $file->hashName());
-
-        Storage::disk($post->getDisk())->delete($post->getFullPath() . '/' . $file->hashName());
 
         $image = Image::where(['original' => 'avatar.jpg'])->first();
 
@@ -99,9 +97,6 @@ class ImageApiTest extends BlogTestCase
 
         $this->assertLessThan($image->position, $swapping_image->position);
         
-        $post = Post::find(1);
-        Storage::disk($post->getDisk())->delete($post->getFullPath() . '/' . $file->hashName());
-
         return $image_id;
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Facades\ImageKeeper;
 use App\Models\Image;
 
@@ -170,7 +171,12 @@ class ImageController extends Controller
         if (!$image) {
             return $this->responseNotFound();
         }
-        
+        // find model
+        $modelClassName = $image->imageable_type;
+        $model = $modelClassName::find($image->imageable_id);
+        // delete file from disk
+        Storage::disk($model->getDisk())->delete($image->url);
+        // delete image information
         $image->delete();
         
         return response()->json([
