@@ -10,6 +10,7 @@
 
         <!-- Scripts -->
         {{ $css }}
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
@@ -37,6 +38,5 @@
         {{ $scripts }}
         <script src="/js/main.js"></script>
         <script src="/js/app.js"></script>
-        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
     </body>
 </html>

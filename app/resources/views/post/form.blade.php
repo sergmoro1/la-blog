@@ -7,7 +7,7 @@
     <div class="card">
       <div class="card-content">
         <div class="field">
-          <label class="label">Title</label>
+          <label class="label" for="title">Title</label>
           <div class="control">
             <input class="input" type="text" name="title" id="title" 
               placeholder="{{ __('Briefly about the content') }}" 
@@ -20,7 +20,7 @@
         </div>
 
         <div class="field">
-          <label class="label">Excerpt</label>
+          <label class="label" for="excerpt">Excerpt</label>
           <div class="control">
             <textarea class="textarea" name="excerpt" id="excerpt" placeholder="{{ __('Main value of content') }}"
             >{{ old('excerpt', $post->excerpt) }}</textarea>
@@ -35,7 +35,7 @@
     <div class="card">
       <div class="card-content">
         <div class="field">
-          <label class="label">{{ __('Status') }}</label>
+          <label class="label" for="status">{{ __('Status') }}</label>
           <div class="control">
             <div class="select">
               <select name="status" id="status">
@@ -51,7 +51,7 @@
           </p>         
         </div>
         <div class="field">
-          <label class="label">{{ __('Tags') }}</label>
+          <label class="label" for="select-tags">{{ __('Tags') }}</label>
           <div class="control">
             <div class="select">
               <select id="select-tags" name="tags[]" multiple>
@@ -68,14 +68,18 @@
       </div>
     </div>
   </div>
-
+  
+  <div class="grid grid-cols-1 mb-6">
+    <livewire:upload :model="$post"/>
+  </div>
+  
   <div class="grid grid-cols-1 mb-6">
     <div class="card">
       <div class="card-content">
         <div class="field">
-          <label class="label">Content</label>
+          <label class="label" for="content">Content</label>
           <div class="control">
-            <textarea class="textarea" name="content" id="content"  placeholder="{{ __('Full content') }}"
+            <textarea class="textarea" name="content" id="content" placeholder="{{ __('Full content') }}"
             >{{ old('content', $post->content) }}</textarea>
           </div>
           <p class="help text-red-500">

@@ -914,6 +914,10 @@ video {
 	}
 }
 
+.ordinary-body {
+	padding-left: 0rem;
+}
+
 body {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
@@ -924,7 +928,7 @@ body {
 
 @media (min-width:1024px) {
 	body {
-		padding-left: 15rem
+		padding-left: 15rem;
 	}
 }
 

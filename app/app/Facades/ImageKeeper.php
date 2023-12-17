@@ -33,9 +33,13 @@ class ImageKeeper
     public static function proceed(Request $request, string $file_input = 'file_input'): array
     {
         $post = $request->all();
-        
-        $imageable_type = $post['imageable_type'];
-        $imageable_id = $post['imageable_id'];
+
+        if (isset($post['imageable_type']) && isset($post['imageable_id'])) {
+            $imageable_type = $post['imageable_type'];
+            $imageable_id = $post['imageable_id'];
+        } else {
+            return self::err('images.undefined_imageable_type_or_id');
+        }
 
         // a model that has images, such as Post
         $model = $imageable_type::find($imageable_id);
@@ -80,8 +84,9 @@ class ImageKeeper
             return [
                 'success' => 1, 
                 'file' => [ 
-                    'id'  => $image->id,
-                    'url' => $image->url,
+                    'id'    => $image->id,
+                    'thumb' => $image->makeThumbnail(),
+                    'url'   => $image->getUrl(),
                 ]
             ];
         } else {

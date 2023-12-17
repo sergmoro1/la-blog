@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Traits\HasPageChecker;
-use App\Traits\HasStorage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Traits\HasPageChecker;
+use App\Traits\HasStorage;
 
 /**
  * Post model class
@@ -69,6 +69,10 @@ class Post extends Model
         5 => 'created_at',
     ];
 
+    protected $addonsDefaults = [
+        'caption' => '',
+    ];
+    
     /**
      * Get the owner of this post.
      *
@@ -119,6 +123,26 @@ class Post extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    /**
+     * Prepare options for uploading files.
+     * 
+     * @return string JSON array with uploading options
+     */
+    public function uploadOptions(): string
+    {
+        return json_encode([
+            'data' => [
+                'imageable_type' => get_class(), 
+                'imageable_id' => $this->id,
+            ],
+            'image' => [
+                'tools' => view('livewire.upload.tools')->render(),
+                'line' => view('livewire.upload.line', ['defaults' => $this->addonsDefaults])->render(),
+                'buttons' => view('livewire.upload.buttons')->render(),
+            ],
+        ]);
+    }
+    
     /**
      * Convert markdown to html
      *
