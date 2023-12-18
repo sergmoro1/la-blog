@@ -1,9 +1,39 @@
 /**
- * SimpleUpload.js handler.
- * UploadOptions should be defined before handler.
- * 
  * @author Sergey Morozov <sergmoro1@ya.ru>
  * @see http://simpleupload.michaelcbrook.com/
+ * @see createRequest() in main.js
+ */
+
+/**
+ * Image line actions handler.
+ * Image line - line with additional fields as caption for image.
+ */
+const imageLine = {
+  // Delete image form DB, all related files from the disk and delete imaqe line
+  delete: function(that) {
+    let li = that.closest('li');
+    let id = li.getAttribute('id');
+    let request = createRequest('DELETE', '/api/images/' + id, 'json'); 
+    request.onload = function () {
+      if (request.status == 200) {
+        li.remove();
+      } else {
+        alert(`Error ${request.status}: ${request.statusText}`);
+      }
+    };
+    request.send();
+  },
+  edit: function(that) {
+    let li = that.closest('li');
+    let id = li.getAttribute('id');
+    uploadOptions.fields.forEach((field) => {
+        li.querySelector("[name='" + field + "']").removeAttribute('disabled');
+    });
+  },
+};
+
+/**
+ * SimpleUpload.js handler.
  */
 $(document).ready(function () {
   $('#file_input').change(function () {
@@ -36,18 +66,19 @@ $(document).ready(function () {
       success: function (data) {
         this.progressBar.remove();
         if (data.success) {
-          let that = this;
+          // Add new image line with addons fields
+          // set line id
+          this.li.attr('id', data.file.id);
           // add image
           let img = $('<img/>').attr('src', data.file.thumb).data('img', data.file.url);
-          that.block.append(img);
-          that.block.append(uploadOptions.image.tools);
+          this.block.append(img);
+          this.block.append(uploadOptions.image.tools);
           // add new line
-          that.li.prop('id', data.id);
-          that.block.after(uploadOptions.image.line);
+          this.block.after(uploadOptions.image.line);
           // add buttons
-          let buttons = $('<span/>').prop('id', 'buttons');
+          let buttons = $('<span/>').attr('id', 'buttons');
           buttons.append(uploadOptions.image.buttons);
-          that.li.append(buttons);
+          this.li.append(buttons);
         } else {
           // and message
           let message = $('<span/>').addClass('message').text(data.message);

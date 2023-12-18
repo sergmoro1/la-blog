@@ -6,6 +6,33 @@
  * @see http://simpleupload.michaelcbrook.com/
  */
 $(document).ready(function () {
+  imageLine = {
+    add: function(that, data) {
+      // add image
+      let img = $('<img/>').attr('src', data.file.thumb).data('img', data.file.url);
+      that.block.append(img);
+      that.block.append(uploadOptions.image.tools);
+      // add new line
+      that.li.prop('id', data.id);
+      that.block.after(uploadOptions.image.line);
+      // add buttons
+      let buttons = $('<span/>').prop('id', 'buttons');
+      buttons.append(uploadOptions.image.buttons);
+      that.li.append(buttons);
+    },
+    edit: function() {
+
+    },
+  };
+  
+  btn_edit = document.getElementById('#btn-edit');
+  btn_edit.addEventListener('click', function() {
+    alert('Hi!');
+  });
+  //$('#btn-edit').click(function() {
+  //  alert($(this).closest('li').prop('id'));
+  //});
+  
   $('#file_input').change(function () {
       $(this).simpleUpload('/api/images', {
 
@@ -36,18 +63,7 @@ $(document).ready(function () {
       success: function (data) {
         this.progressBar.remove();
         if (data.success) {
-          let that = this;
-          // add image
-          let img = $('<img/>').attr('src', data.file.thumb).data('img', data.file.url);
-          that.block.append(img);
-          that.block.append(uploadOptions.image.tools);
-          // add new line
-          that.li.prop('id', data.id);
-          that.block.after(uploadOptions.image.line);
-          // add buttons
-          let buttons = $('<span/>').prop('id', 'buttons');
-          buttons.append(uploadOptions.image.buttons);
-          that.li.append(buttons);
+          imageLine.add(this, data);
         } else {
           // and message
           let message = $('<span/>').addClass('message').text(data.message);

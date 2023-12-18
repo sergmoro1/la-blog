@@ -1,6 +1,6 @@
 {{--
-  @var App\Models\Image $image
+  @var object $addons addons values
   or
-  @var string $defaults Added image line defaults values
+  @var array $defaults image default addons values
 --}}
-<textarea id="caption" disabled></textarea>
+<textarea name="caption" disabled><?= isset($addons) ? $addons->caption : $defaults['caption'] ?></textarea>

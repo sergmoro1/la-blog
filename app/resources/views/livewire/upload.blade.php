@@ -22,7 +22,7 @@
               @include('livewire.upload.tools')
             </span>
             
-            @include('livewire.upload.line', ['image' => $image])
+            @include('livewire.upload.line', ['id' => $image->id, 'addons' => json_decode($image->addons)])
 
             <span class='buttons'>
               @include('livewire.upload.buttons')

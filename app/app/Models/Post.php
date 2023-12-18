@@ -140,6 +140,7 @@ class Post extends Model
                 'line' => view('livewire.upload.line', ['defaults' => $this->addonsDefaults])->render(),
                 'buttons' => view('livewire.upload.buttons')->render(),
             ],
+            'fields' => array_keys($this->addonsDefaults),
         ]);
     }
     

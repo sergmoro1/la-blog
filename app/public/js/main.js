@@ -58,17 +58,18 @@ Array.from(document.getElementsByClassName('--jb-notification-dismiss')).forEach
   });
 });
 
+function createRequest(type, url, responseType = '') { 
+  let request = new XMLHttpRequest();
+  request.responseType = responseType;
+  request.open(type, url);
+  request.setRequestHeader('Authorization', app_credentials);
+  return request;
+}; 
+
 let luke = (function () {
   const views = {
     'buttons': ['view', 'edit', 'delete']
   };
-  function createRequest(type, url, responseType = '') { 
-    let request = new XMLHttpRequest();
-    request.responseType = responseType;
-    request.open(type, url);
-    request.setRequestHeader('Authorization', app_credentials);
-    return request;
-  }; 
   return {
     get: function (url, id) {
       let request = createRequest('GET', url + '/' + id); 
