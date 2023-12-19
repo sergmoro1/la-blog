@@ -30,14 +30,6 @@
     transition: .25s ease-out;
 }
 
-#uploads .table li.error .extension {
-    text-align: center;
-    font-size: 14pt;
-    color: #777;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
 #uploads .table li.error .message {
     text-align: left;
     font-size: 11pt;
@@ -85,11 +77,17 @@
     vertical-align: middle;
 }
 
-#uploads .table li > textarea,
-#uploads .table li > input,
-#uploads .table li > select
+#uploads .table li textarea,
+#uploads .table li input,
+#uploads .table li select
 {
     vertical-align: middle;
+}
+
+#uploads .table li input,
+#uploads .table li select
+{
+    width: 80px;
 }
 
 #uploads .table li > span

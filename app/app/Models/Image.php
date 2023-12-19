@@ -108,12 +108,12 @@ class Image extends Model
 
     /**
      * Get url.
-     * 
+     * @param bool $includeStorage
      * @return string
      */
-    public function getThumbnailUrl(): string
+    public function getThumbnailUrl($includeStorage = true): string
     {
         $this->setThumbnail();
-        return Storage::url($this->thumbnail);
+        return $includeStorage ? Storage::url($this->thumbnail) : $this->thumbnail;
     }
 }

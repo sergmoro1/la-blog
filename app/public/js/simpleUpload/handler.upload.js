@@ -6,29 +6,65 @@
 
 /**
  * Image line actions handler.
- * Image line - line with additional fields as caption for image.
+ * Image line - line with additional fields as a caption for image.
  */
 const imageLine = {
   // Delete image form DB, all related files from the disk and delete imaqe line
   delete: function(that) {
-    let li = that.closest('li');
-    let id = li.getAttribute('id');
-    let request = createRequest('DELETE', '/api/images/' + id, 'json'); 
-    request.onload = function () {
-      if (request.status == 200) {
-        li.remove();
-      } else {
-        alert(`Error ${request.status}: ${request.statusText}`);
-      }
-    };
-    request.send();
+    this.li = that.closest('li');
+    this.id = this.li.getAttribute('id');
+
+    axios.delete('/api/images/' + this.id)
+    .then(response => {
+      this.li.remove();
+    })
+    .catch(error => {
+      console.log(err);
+    });
   },
   edit: function(that) {
-    let li = that.closest('li');
-    let id = li.getAttribute('id');
+    this.li = that.closest('li');
     uploadOptions.fields.forEach((field) => {
-        li.querySelector("[name='" + field + "']").removeAttribute('disabled');
+        this.li.querySelector("[name='" + field + "']").removeAttribute('readonly');
     });
+    this.buttonsSwitch();
+  },
+  save: function(that) {
+    this.li = that.closest('li');
+    this.id = this.li.getAttribute('id');
+
+    let data = [];
+    let span = this.li.getElementsByClassName('line');
+    for (let inpt of span[0].getElementsByTagName('input')) {
+      if (inpt.type == 'text') {
+        data[inpt.name] = inpt.value;
+      }
+    }
+    for (let tag of ['select', 'textarea']) {
+      for (let fld of span[0].getElementsByTagName(tag)) {
+        data[fld.name] = fld.value;
+      }
+    }
+    
+    axios.put('/api/images/' + this.id, {
+      addons: JSON.stringify({ ...data })
+    })
+    .then(response => {
+      this.buttonsSwitch();
+    })
+    .catch(error => {
+      console.log(err);
+    });
+  },
+  cancel: function(that) {
+    this.li = that.closest('li');
+    this.buttonsSwitch();
+  },
+  buttonsSwitch: function() {
+    let span = this.li.getElementsByClassName('buttons');
+    for (let btn of span[0].getElementsByTagName('button')) {
+      btn.classList.toggle('inactive');
+    }
   },
 };
 
@@ -76,7 +112,7 @@ $(document).ready(function () {
           // add new line
           this.block.after(uploadOptions.image.line);
           // add buttons
-          let buttons = $('<span/>').attr('id', 'buttons');
+          let buttons = $('<span class="buttons"></span>');
           buttons.append(uploadOptions.image.buttons);
           this.li.append(buttons);
         } else {

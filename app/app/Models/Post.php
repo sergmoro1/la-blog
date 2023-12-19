@@ -71,6 +71,8 @@ class Post extends Model
 
     protected $addonsDefaults = [
         'caption' => '',
+        'year' => '',
+        'category' => 'home',
     ];
     
     /**
@@ -142,6 +144,11 @@ class Post extends Model
             ],
             'fields' => array_keys($this->addonsDefaults),
         ]);
+    }
+    
+    public function getAddonsDefaults()
+    {
+        return $this->addonsDefaults;
     }
     
     /**

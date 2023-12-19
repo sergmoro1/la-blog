@@ -18,7 +18,7 @@
         @foreach ($model->images as $image)
           <li id={{$image->id}}>
             <span class='block'>
-              <img src='{{$image->getThumbnailUrl()}}'>
+              <img src='{{$image->getThumbnailUrl()}}' data-img='{{$image->getUrl()}}'>
               @include('livewire.upload.tools')
             </span>
             

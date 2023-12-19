@@ -63,6 +63,7 @@ function createRequest(type, url, responseType = '') {
   request.responseType = responseType;
   request.open(type, url);
   request.setRequestHeader('Authorization', app_credentials);
+  request.setRequestHeader('Content-Type', 'application/json');
   return request;
 }; 
 

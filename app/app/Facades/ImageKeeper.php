@@ -79,7 +79,7 @@ class ImageKeeper
             'original'       => $file->getClientOriginalName(),
             'mime_type'      => $file->getClientMimeType(),
             'size'           => $file->getSize(),
-            'addons'         => '{"caption": ""}',
+            'addons'         => json_encode($model->getAddonsDefaults()),
         ])) {
             return [
                 'success' => 1, 

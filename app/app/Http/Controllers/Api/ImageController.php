@@ -174,14 +174,15 @@ class ImageController extends Controller
         // find model
         $modelClassName = $image->imageable_type;
         $model = $modelClassName::find($image->imageable_id);
-        // delete file from disk
+        // delete all files from disk
         Storage::disk($model->getDisk())->delete($image->url);
+        Storage::disk($model->getDisk())->delete($image->getThumbnailUrl(false));
         // delete image information
         $image->delete();
         
         return response()->json([
             'success' => true,
-            'message' => (__("Entity #:id deleted succsessfully", ['id' => $id])),
+            'message' => (__("Entity #:id deleted succsessfully:" . $image->getThumbnailUrl(), ['id' => $id])),
         ], 200);
    }
 }
