@@ -15,69 +15,96 @@
 }
 
 #uploads .table .block .progressBar {
-	display: block;
-	background-color: #3E6FAD;
-	width: 0px;
-	height: 5px;
+    display: block;
+    background-color: #3E6FAD;
+    width: 0px;
+    height: 5px;
     margin-top: 15px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-o-border-radius: 5px;
-	border-radius: 5px;
-	-moz-transition: .25s ease-out;
-	-webkit-transition: .25s ease-out;
-	-o-transition: .25s ease-out;
-	transition: .25s ease-out;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    -moz-transition: .25s ease-out;
+    -webkit-transition: .25s ease-out;
+    -o-transition: .25s ease-out;
+    transition: .25s ease-out;
 }
 
-#uploads .table li.error .extension {
-	text-align: center;
-	font-size: 14pt;
-	color: #777;
-	font-weight: bold;
-	margin-top: 10px;
+#uploads .table li.error {
+    display: block;
 }
 
 #uploads .table li.error .message {
-	text-align: left;
-	font-size: 11pt;
-}
-
-#uploads .table li.error .message {
-	color: #d9534f;
+    text-align: left;
+    font-size: 11pt;
+    color: #d9534f;
 }
 
 #uploads .table .block{
     position: relative;
 }
-#uploads .table .block .img-tool{
-    width:20px;
-    float:right;
+
+#uploads .table .block img {
+    float: left;
 }
-#uploads .table .block .img-tool #btn-view {
+
+#uploads .table .block .img-tool {
+    width: 20px;
+    float: right;
+}
+
+#uploads .table .block .img-tool a {
+    margin-right: 5px;
+}
+
+#uploads .table .block .img-tool #btn-copy {
     margin:0px;
     padding:2px;
 }
 
 #uploads .table li {
-  list-style-type: none;
+    list-style-type: none;
 }
 
-#uploads .table li > span {
-  display: inline-block;
-  padding-right: 5px;
-  margin: 3px 0px; 
-}
-
-#uploads .table li > span img,
-#uploads .table li > span textarea,
-#uploads .table li > span input,
-#uploads .table li > span select
+#uploads .table li .inactive
 {
-  vertical-align: middle;
+    display: none;
 }
-#uploads .table li > span input[type="checkbox"],
-#uploads .table li > span input[type="radio"]
+
+#uploads .table li > span, #uploads .table li {
+    display: inline-block;
+    padding-right: 5px;
+    margin: 3px 0px;
+    vertical-align: middle;
+}
+
+#uploads .table li textarea,
+#uploads .table li input,
+#uploads .table li select
+{
+    vertical-align: middle;
+}
+
+#uploads .table li input,
+#uploads .table li select
+{
+    width: 5rem;
+}
+
+#uploads .table li textarea
+{
+    height: 4rem;
+    width: 14rem;
+}
+
+#uploads .table li > span
+{
+    display: inline-block;
+}
+
+#uploads .table li > input[type="checkbox"],
+#uploads .table li > input[type="radio"]
 {
   margin-left: 0px;
 }
+

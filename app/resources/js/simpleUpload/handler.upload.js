@@ -1,38 +1,86 @@
 /**
- * SimpleUpload.js handler.
- * UploadOptions should be defined before handler.
- * 
+ * Image line actions handler.
+ * Image line - line with additional fields as a caption for image.
  * @author Sergey Morozov <sergmoro1@ya.ru>
+ */
+const imageLine = {
+  // delete image from DB, all related files from the disk and delete imaqe line
+  delete: function(that) {
+    this.li = that.closest('li');
+    this.id = this.li.getAttribute('id');
+
+    axios.delete('/api/images/' + this.id)
+    .then(response => {
+      this.li.remove();
+    })
+    .catch(error => {
+      console.log(err);
+    });
+  },
+  // open fields in image line for edition
+  edit: function(that) {
+    this.li = that.closest('li');
+    uploadOptions.fields.forEach((field) => {
+        this.li.querySelector("[name='" + field + "']").removeAttribute('readonly');
+    });
+    this.buttonsSwitch();
+  },
+  // save edition results 
+  save: function(that) {
+    this.li = that.closest('li');
+    this.id = this.li.getAttribute('id');
+
+    let data = [];
+    let span = this.li.getElementsByClassName('line');
+    for (let inpt of span[0].getElementsByTagName('input')) {
+      if (inpt.type == 'text') {
+        data[inpt.name] = inpt.value;
+      }
+    }
+    for (let tag of ['select', 'textarea']) {
+      for (let fld of span[0].getElementsByTagName(tag)) {
+        data[fld.name] = fld.value;
+      }
+    }
+    
+    axios.put('/api/images/' + this.id, {
+      addons: JSON.stringify({ ...data })
+    })
+    .then(response => {
+      this.buttonsSwitch();
+    })
+    .catch(error => {
+      console.log(err);
+    });
+  },
+  // cancel edition
+  cancel: function(that) {
+    this.li = that.closest('li');
+    this.buttonsSwitch();
+  },
+  // copy image link to clipboard
+  copy: function(that) {
+    let li = that.closest('li');
+
+    let img = li.querySelector('span.block > img');
+    let imgLink = new URL(img.getAttribute('data-img'), window.location.href);
+    
+    copyTextToClipboard(imgLink);
+  },
+  // make active buttons inactive and vice versa
+  buttonsSwitch: function() {
+    let span = this.li.getElementsByClassName('buttons');
+    for (let btn of span[0].getElementsByTagName('button')) {
+      btn.classList.toggle('inactive');
+    }
+  },
+};
+
+/**
+ * SimpleUpload.js handler.
  * @see http://simpleupload.michaelcbrook.com/
  */
 $(document).ready(function () {
-  imageLine = {
-    add: function(that, data) {
-      // add image
-      let img = $('<img/>').attr('src', data.file.thumb).data('img', data.file.url);
-      that.block.append(img);
-      that.block.append(uploadOptions.image.tools);
-      // add new line
-      that.li.prop('id', data.id);
-      that.block.after(uploadOptions.image.line);
-      // add buttons
-      let buttons = $('<span/>').prop('id', 'buttons');
-      buttons.append(uploadOptions.image.buttons);
-      that.li.append(buttons);
-    },
-    edit: function() {
-
-    },
-  };
-  
-  btn_edit = document.getElementById('#btn-edit');
-  btn_edit.addEventListener('click', function() {
-    alert('Hi!');
-  });
-  //$('#btn-edit').click(function() {
-  //  alert($(this).closest('li').prop('id'));
-  //});
-  
   $('#file_input').change(function () {
       $(this).simpleUpload('/api/images', {
 
@@ -61,21 +109,33 @@ $(document).ready(function () {
       },
 
       success: function (data) {
+        // Add new image line with addons fields
         this.progressBar.remove();
         if (data.success) {
-          imageLine.add(this, data);
+          // set line id
+          this.li.attr('id', data.file.id);
+          // add image
+          let img = $('<img/>').attr('src', data.file.thumb).data('img', data.file.url);
+          this.block.append(img);
+          this.block.append(uploadOptions.image.tools);
+          // add new line
+          this.block.after(uploadOptions.image.line);
+          // add buttons
+          let buttons = $('<span class="buttons"></span>');
+          buttons.append(uploadOptions.image.buttons);
+          this.li.append(buttons);
         } else {
           // and message
           let message = $('<span/>').addClass('message').text(data.message);
           // add line with error to the table
-          this.li.addClass('error').append(message);
+          this.li.addClass('error').prepend(message);
         }
       },
 
       error: function (error) {
         this.progressBar.remove();
-        this.li.addClass('error');
-        this.block.addClass('message').text(error.message);
+        let message = $('<span/>').addClass('message').text(error.message);
+        this.li.addClass('error').prepend(message);
       }
     });
   });

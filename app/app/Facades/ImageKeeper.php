@@ -53,7 +53,7 @@ class ImageKeeper
 
         // is not image
         if (strtolower(substr($file->getClientMimeType(), 0, 5)) !== 'image') {
-            return self::err('images.is_not_image');
+            return self::err('images.is_not_image', ['name' => $file->getClientOriginalName()]);
         }
 
         // too many files
@@ -63,7 +63,7 @@ class ImageKeeper
 
         // check file size
         if ($file->getSize() > $file->getMaxFilesize()) {
-            return self::err('size_does_not_fit', [
+            return self::err('images.size_does_not_fit', [
                 'max'  => $file->getMaxFilesize(),
             ]);
         }
@@ -90,7 +90,7 @@ class ImageKeeper
                 ]
             ];
         } else {
-            return self::err(__('image.image_cant_be_saved', ['name' => $image->original]));
+            return self::err(__('images.image_cant_be_saved'));
         }
     }
 }

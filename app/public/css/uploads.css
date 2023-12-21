@@ -30,12 +30,13 @@
     transition: .25s ease-out;
 }
 
-#uploads .table li.error .message {
-    text-align: left;
-    font-size: 11pt;
+#uploads .table li.error {
+    display: block;
 }
 
 #uploads .table li.error .message {
+    text-align: left;
+    font-size: 11pt;
     color: #d9534f;
 }
 
@@ -87,7 +88,13 @@
 #uploads .table li input,
 #uploads .table li select
 {
-    width: 80px;
+    width: 5rem;
+}
+
+#uploads .table li textarea
+{
+    height: 4rem;
+    width: 14rem;
 }
 
 #uploads .table li > span

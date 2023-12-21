@@ -1843,3 +1843,8 @@ footer {
 		grid-template-columns: repeat(2, minmax(0, 1fr))
 	}
 }
+
+ul.select2-selection__rendered {
+    margin: 6px;
+}
+

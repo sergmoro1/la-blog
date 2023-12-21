@@ -1,3 +1,8 @@
+/**
+ * Select2 and MarkDown editor initializer.
+ * @see https://select2.org/
+ * @see https://simplemde.com/
+ */
 document.addEventListener("DOMContentLoaded", function(event) {
   $('#select-tags').select2(
     init_select2('/api/tags', 'Select tags')

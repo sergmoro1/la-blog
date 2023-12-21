@@ -1,5 +1,7 @@
 <div class="img-tool">
-    <a href="javascript:;" id="btn-copy" title="{{ __('Copy the link to the image to insert in the content') }}">
-    <span class="material-icons">content_copy</span>
+    <a href="javascript:;" id="btn-copy" onclick="imageLine.copy(this);">
+        <span class="material-icons" title="{{ __('Copy image link to clipboard') }}" >
+            content_copy
+        </span>
     </a>
 </div>

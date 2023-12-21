@@ -36,7 +36,7 @@
         </div>
         <script>var app_credentials = '<?= config('app.credentials.basic'); ?>';</script>
         {{ $scripts }}
-        <script src="/js/main.js"></script>
         <script src="/js/app.js"></script>
+        <script src="/js/main.js"></script>
     </body>
 </html>

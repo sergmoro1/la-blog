@@ -58,86 +58,18 @@ Array.from(document.getElementsByClassName('--jb-notification-dismiss')).forEach
   });
 });
 
-function createRequest(type, url, responseType = '') { 
-  let request = new XMLHttpRequest();
-  request.responseType = responseType;
-  request.open(type, url);
-  request.setRequestHeader('Authorization', app_credentials);
-  request.setRequestHeader('Content-Type', 'application/json');
-  return request;
-}; 
+/* Copy text to clipboard */
+async function copyTextToClipboard(text) {
+  try {
+      await navigator.clipboard.writeText(text);
+      console.log('Text copied to clipboard');
+  } catch (err) {
+      console.error('Error in copying text: ', err);
+  }
+}
 
-let luke = (function () {
-  const views = {
-    'buttons': ['view', 'edit', 'delete']
-  };
-  return {
-    get: function (url, id) {
-      let request = createRequest('GET', url + '/' + id); 
-      request.onload = function () {
-        if (request.status == 200) {
-          let modal = document.getElementById('modal-show');
-          modal.innerHTML = request.response;
-          modal.classList.add('active');
-        } else {
-          alert(`Ошибка ${request.status}: ${request.statusText}`);
-        }
-      };
-      request.send();
-    },
-    delete: function (url, id = null) {
-      if (!id) {
-      	id = document.querySelector('[data-id]').getAttribute('data-id');
-      }
-      let request = createRequest('DELETE', url + '/' + id, 'json'); 
-      request.onload = function () {
-        if (request.status == 200) {
-          $('#data-table').DataTable().draw(false);
-        } else {
-          alert(`Ошибка ${request.status}: ${request.statusText}`);
-        }
-      };
-      request.send();
-    },
-    actions: function (list, id) {
-      let html = '';
-      for (let action of list) {
-        let index = views.buttons.indexOf(action);
-        html += this.widgets.buttons[index](id);
-      }
-      return `<div class="buttons right nowrap">${html}</div>`;
-    },
-    widgets: {
-      buttons: [
-        function (id) // view
-        {
-          return `<a onclick="luke.get('post-show-modal', ${id});">
-              <button class="button small green" type="button">
-                <span class="icon"><i class="mdi mdi-eye"></i></span>
-              </button>
-            </a>`;
-        },
-        function (id) // edit
-        {
-          return `<a href="/post-edit/${id}">
-              <button class="button small blue" type="button">
-                <span class="icon"><i class="mdi mdi-pencil"></i></span>
-              </button>
-            </a>`;
-        },
-        function (id) // delete
-        {
-          return `<button class="button small red --jb-modal"  
-              data-target="modal-delete" type="button" 
-              onclick="this.setAttribute('data-id', ${id}); 
-                let modal = document.getElementById('modal-delete'); 
-                modal.classList.add('active');">
-                <span class="icon">
-                  <i class="mdi mdi-trash-can"></i>
-                </span>
-            </button>`;
-        }
-      ]
-    }
-  };
-}());
+/* Authorization header for all requests */
+axios.defaults.headers = {
+  'Content-Type': 'application/json',
+  'Authorization': app_credentials,
+}

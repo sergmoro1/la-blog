@@ -1,15 +1,10 @@
 /**
- * @author Sergey Morozov <sergmoro1@ya.ru>
- * @see http://simpleupload.michaelcbrook.com/
- * @see createRequest() in main.js
- */
-
-/**
  * Image line actions handler.
  * Image line - line with additional fields as a caption for image.
+ * @author Sergey Morozov <sergmoro1@ya.ru>
  */
 const imageLine = {
-  // Delete image form DB, all related files from the disk and delete imaqe line
+  // delete image from DB, all related files from the disk and delete imaqe line
   delete: function(that) {
     this.li = that.closest('li');
     this.id = this.li.getAttribute('id');
@@ -22,6 +17,7 @@ const imageLine = {
       console.log(err);
     });
   },
+  // open fields in image line for edition
   edit: function(that) {
     this.li = that.closest('li');
     uploadOptions.fields.forEach((field) => {
@@ -29,6 +25,7 @@ const imageLine = {
     });
     this.buttonsSwitch();
   },
+  // save edition results 
   save: function(that) {
     this.li = that.closest('li');
     this.id = this.li.getAttribute('id');
@@ -56,10 +53,21 @@ const imageLine = {
       console.log(err);
     });
   },
+  // cancel edition
   cancel: function(that) {
     this.li = that.closest('li');
     this.buttonsSwitch();
   },
+  // copy image link to clipboard
+  copy: function(that) {
+    let li = that.closest('li');
+
+    let img = li.querySelector('span.block > img');
+    let imgLink = new URL(img.getAttribute('data-img'), window.location.href);
+    
+    copyTextToClipboard(imgLink);
+  },
+  // make active buttons inactive and vice versa
   buttonsSwitch: function() {
     let span = this.li.getElementsByClassName('buttons');
     for (let btn of span[0].getElementsByTagName('button')) {
@@ -70,6 +78,7 @@ const imageLine = {
 
 /**
  * SimpleUpload.js handler.
+ * @see http://simpleupload.michaelcbrook.com/
  */
 $(document).ready(function () {
   $('#file_input').change(function () {
@@ -100,9 +109,9 @@ $(document).ready(function () {
       },
 
       success: function (data) {
+        // Add new image line with addons fields
         this.progressBar.remove();
         if (data.success) {
-          // Add new image line with addons fields
           // set line id
           this.li.attr('id', data.file.id);
           // add image
@@ -119,14 +128,14 @@ $(document).ready(function () {
           // and message
           let message = $('<span/>').addClass('message').text(data.message);
           // add line with error to the table
-          this.li.addClass('error').append(message);
+          this.li.addClass('error').prepend(message);
         }
       },
 
       error: function (error) {
         this.progressBar.remove();
-        this.li.addClass('error');
-        this.block.addClass('message').text(error.message);
+        let message = $('<span/>').addClass('message').text(error.message);
+        this.li.addClass('error').prepend(message);
       }
     });
   });

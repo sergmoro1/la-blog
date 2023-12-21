@@ -55,7 +55,7 @@
       @if ($action == 'index')
         <script src="/vendor/jquery/jquery-3.7.0.min.js"></script>
         <script src="/vendor/DataTables/datatables.min.js"></script>
-        <script src="/js/post/index.js"></script>
+        <script src="/js/post/handler.datatables.js"></script>
       @endif
       @if (in_array($action, ['create', 'edit']))
         <script src="/vendor/jquery/jquery-3.7.0.min.js"></script>

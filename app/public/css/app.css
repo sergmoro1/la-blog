@@ -3566,4 +3566,6 @@ ul.pagination li{
   }
 }
 
-
+ul.select2-selection__rendered {
+    margin: 6px;
+}
