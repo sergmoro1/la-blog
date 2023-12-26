@@ -126,6 +126,34 @@ class Post extends Model
     }
 
     /**
+     * Prepare action buttons for datatables.js plugin.
+     * 
+     * @return string JSON array with buttons
+     */
+    public static function dtButtons(): string
+    {
+        return json_encode([
+            '<a onclick="dtLine.get(\'post-show-modal\', ${id});">
+                <button class="button small green" type="button">
+                    <span class="material-icons">visibility</span>
+                </button>
+            </a>',
+            '<a href="/post-edit/${id}">
+                <button class="button small blue" type="button">
+                    <span class="material-icons">edit</span>
+                </button>
+            </a>',
+            '<button class="button small red --jb-modal"  
+                data-target="modal-delete" type="button" 
+                onclick="this.setAttribute(\'data-id\', ${id}); 
+                  let modal = document.getElementById(\'modal-delete\'); 
+                  modal.classList.add(\'active\');">
+                  <span class="material-icons">delete</span>
+            </button>',
+        ]);
+    }
+  
+    /**
      * Prepare options for uploading files.
      * 
      * @return string JSON array with uploading options

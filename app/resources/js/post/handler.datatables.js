@@ -2,7 +2,7 @@
  * Datatable line actions handler.
  * @author Sergey Morozov <sergmoro1@ya.ru>
  */
-const luke = (function () {
+window.dtLine = (function () {
   const views = {
     'buttons': ['view', 'edit', 'delete']
   };
@@ -34,42 +34,15 @@ const luke = (function () {
       let html = '';
       for (let action of list) {
         let index = views.buttons.indexOf(action);
-        html += this.widgets.buttons[index](id);
+        html += this.button(index, id);
       }
       return `<div class="buttons right nowrap">${html}</div>`;
     },
-    widgets: {
-      buttons: [
-        function (id) // view
-        {
-          return `<a onclick="luke.get('post-show-modal', ${id});">
-              <button class="button small green" type="button">
-                <span class="material-icons">visibility</span>
-              </button>
-            </a>`;
-        },
-        function (id) // edit
-        {
-          return `<a href="/post-edit/${id}">
-              <button class="button small blue" type="button">
-                <span class="material-icons">edit</span>
-              </button>
-            </a>`;
-        },
-        function (id) // delete
-        {
-          return `<button class="button small red --jb-modal"  
-              data-target="modal-delete" type="button" 
-              onclick="this.setAttribute('data-id', ${id}); 
-                let modal = document.getElementById('modal-delete'); 
-                modal.classList.add('active');">
-                <span class="material-icons">delete</span>
-            </button>`;
-        }
-      ]
+    button: function(index, id) {
+      return dtButtons[index].replace('${id}', id);
     }
   };
-}());
+})();
 
 /**
  * Datatable.js handler.
@@ -104,7 +77,7 @@ $(document).ready(function () {
       {
         render: function (data, type, row) {
           if (type === 'display') {
-            return luke.actions(['view', 'edit', 'delete'], row.id);
+            return dtLine.actions(['view', 'edit', 'delete'], row.id);
           }
           return '';
         }

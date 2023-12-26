@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post', ['action' => 'index']);
+        return view('post', ['action' => 'index', 'buttons' => Post::dtButtons()]);
     }
 
     /**

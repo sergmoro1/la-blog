@@ -22,7 +22,7 @@ class CreateImagesTable extends Migration
             $table->unsignedInteger('size');
             $table->string('mime_type');
             $table->json('addons');
-            $table->timestamp('position')->useCurrent();
+            $table->unsignedInteger('position')->nullable();
             $table->timestamps();
         });
     }

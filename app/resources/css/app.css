@@ -1879,3 +1879,8 @@ footer {
 ul.pagination li{
   display:inline!important;
 }
+
+@import url('./main.css');
+@import url('./select2.css');
+@import url('./fileinput.css');
+@import url('./uploads.css');

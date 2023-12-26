@@ -1,5 +1,5 @@
 /**
- * Select2 and MarkDown editor initializer.
+ * Select2 initializer.
  * @see https://select2.org/
  * @see https://simplemde.com/
  */
@@ -7,9 +7,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $('#select-tags').select2(
     init_select2('/api/tags', 'Select tags')
   );
-  var simplemde = new SimpleMDE({ 
-    element: document.getElementById("content")
-  });
   function init_select2(url, placeholder) {
     return {
       placeholder: placeholder,

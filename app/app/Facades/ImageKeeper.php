@@ -81,6 +81,8 @@ class ImageKeeper
             'size'           => $file->getSize(),
             'addons'         => json_encode($model->getAddonsDefaults()),
         ])) {
+            $image->position = $image->id;
+            $image->update();
             return [
                 'success' => 1, 
                 'file' => [ 

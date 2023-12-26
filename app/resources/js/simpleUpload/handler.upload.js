@@ -3,7 +3,7 @@
  * Image line - line with additional fields as a caption for image.
  * @author Sergey Morozov <sergmoro1@ya.ru>
  */
-const imageLine = {
+window.imageLine = {
   // delete image from DB, all related files from the disk and delete imaqe line
   delete: function(that) {
     this.li = that.closest('li');
@@ -47,7 +47,7 @@ const imageLine = {
       addons: JSON.stringify({ ...data })
     })
     .then(response => {
-      this.buttonsSwitch();
+      this.buttonsSwitch(true);
     })
     .catch(error => {
       console.log(err);
@@ -56,7 +56,7 @@ const imageLine = {
   // cancel edition
   cancel: function(that) {
     this.li = that.closest('li');
-    this.buttonsSwitch();
+    this.buttonsSwitch(true);
   },
   // copy image link to clipboard
   copy: function(that) {
@@ -68,8 +68,17 @@ const imageLine = {
     copyTextToClipboard(imgLink);
   },
   // make active buttons inactive and vice versa
-  buttonsSwitch: function() {
+  // add to image fields readonly attribute or remove it
+  buttonsSwitch: function(readonly = false) {
     let span = this.li.getElementsByClassName('buttons');
+    uploadOptions.fields.forEach((name) => {
+      let field = this.li.querySelector("[name='" + name + "']");
+      if (readonly) {
+        field.setAttribute('readonly','readonly');
+      } else {
+        field.removeAttribute('readonly');
+      }
+    });
     for (let btn of span[0].getElementsByTagName('button')) {
       btn.classList.toggle('inactive');
     }
@@ -115,7 +124,7 @@ $(document).ready(function () {
           // set line id
           this.li.attr('id', data.file.id);
           // add image
-          let img = $('<img/>').attr('src', data.file.thumb).data('img', data.file.url);
+          let img = $('<img/>').attr('src', data.file.thumb).attr('img-data', data.file.url);
           this.block.append(img);
           this.block.append(uploadOptions.image.tools);
           // add new line

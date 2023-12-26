@@ -15,7 +15,7 @@
       ">
         {{ __('Cancel') }}
       </button>
-      <button class="button red --jb-modal-close" onclick="luke.delete('api/posts');">
+      <button class="button red --jb-modal-close" onclick="dtLine.delete('api/posts');">
         {{ __('Delete') }}
       </button>
     </footer>
