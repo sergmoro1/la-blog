@@ -26,23 +26,17 @@ import Sortable from 'sortablejs';
 el = document.querySelector('ul.table');
 if (el) {
   var sortable = Sortable.create(el, {
-    getIDs: function() {
-      let uploads = getElementById('uploads');
-      let rows = uploads.querySelector('ul.table li');
-      let ids = [];
-      rows.forEach(function(row, index) {
-        ids[index] = row.id; 
+	  onEnd: function (evt) {
+      axios.put('/api/images/' + evt.item.id, {
+        oldIndex: evt.oldIndex,
+        newIndex: evt.newIndex,
+      })
+      .then(response => {
+        console.log('Ok');
+      })
+      .catch(err => {
+        console.log(err);
       });
-      return ids;
-    },
-	onStart: function (evt) {
-        console.log(`id = ${evt.item.id}, oldIndex = ${evt.oldIndex}`);
-	},
-	onEnd: function (/**Event*/evt) {
-        let uploads = document.getElementById('uploads');
-        let rows = uploads.querySelectorAll('ul.table li');
-        let swapWith = rows[evt.oldIndex].id;
-        console.log(`id = ${evt.item.id}, newIndex = ${evt.newIndex}, swap with = ${swapWith}`);
-	},    
+	  },    
   });
 }

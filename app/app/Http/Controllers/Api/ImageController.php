@@ -59,7 +59,7 @@ class ImageController extends Controller
      *     operationId="updateImage",
      *     tags={"Images"},
      *     summary="Update image",
-     *     description="Update ''existing image",
+     *     description="Update existing image",
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             ref="#/components/schemas/Image"
@@ -95,22 +95,49 @@ class ImageController extends Controller
         if (!$image) {
             return $this->responseNotFound();
         }
+        if ($request->has(['oldIndex', 'newIndex'])) {
+            $oldIndex = $request->input('oldIndex');
+            $newIndex = $request->input('newIndex');
 
-        $post = $request->all();
-
-        if (isset($post['swapping_image_id'])) {
-            $swapping_image = Image::find($post['swapping_image_id']);
-            if ($swapping_image) {
-                $temp = $image->position;
-                $image->position = $swapping_image->position;
-                $swapping_image->position = $temp;
-                $image->save();
-                $swapping_image->save();
-            } else {
-                return $this->responseNotFound();
+            // when moving from bottom to top, the order of entries should be reversed,
+            // then can be lead to the case of moving from the bottom to top
+            $order = $oldIndex < $newIndex ? 'asc' : 'desc'; 
+            // get all images of the model
+            $images = Image::select(['id', 'position'])
+                ->where('imageable_type', $image->imageable_type)
+                ->where('imageable_id', $image->imageable_id)
+                ->orderBy('position', $order)
+                ->get();
+            
+            if ($oldIndex > $newIndex) {
+                // moving from bottom to top
+                $countImages = count($images) - 1;
+                // we swap the indexes and adjust them since the order of records was reversed
+                list($oldIndex, $newIndex) = [$countImages - $oldIndex, $countImages - $newIndex];
             }
-        } else if (isset($post['addons'])) {
-            $image->addons = $post['addons'];
+            
+            foreach ($images as $ind => $image) {
+                if ($ind < $oldIndex) {
+                    continue;
+                } else if ($ind == $oldIndex) {
+                    $oldImage = $image;
+                    $prevPosition = $image->position;
+                } else if ($ind <= $newIndex) {
+                    $temp = $image->position;
+                    $image->position = $prevPosition;
+                    $image->update();
+                    if ($ind == $newIndex) {
+                        $oldImage->position = $temp;
+                        $oldImage->update();
+                    } else {
+                        $prevPosition = $temp;
+                    }
+                } else {
+                    break;
+                }
+            }
+        } else if ($request->has('addons')) {
+            $image->addons = $request->input('addons');
             $image->save();
         } else {
             return response()->json([

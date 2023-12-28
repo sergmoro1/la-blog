@@ -20,6 +20,7 @@ use Imagine\Imagick\Imagine;
  * @param integer   $size
  * @param string    $mime_type
  * @param json      $addons
+ * @param integer   $position
  * @param timestamp $created_at
  * @param timestamp $updated_at
  *
@@ -47,6 +48,7 @@ class Image extends Model
         'size',
         'mime_type',
         'original',
+        'position',
         'addons',
     ];
     
