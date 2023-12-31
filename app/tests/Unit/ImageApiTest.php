@@ -83,13 +83,12 @@ class ImageApiTest extends BlogTestCase
 
         // swap two images
         $swapping_image = Image::where(['original' => 'photo.jpg'])->first();
-        $swapping_image->position = date('Y-m-d H:i:s', time() + 10);
         $swapping_image->save();
 
         $this->assertLessThan($swapping_image->position, $image->position);
 
         $this->withHeaders(["Authorization" => BasicAuth::getKey()])
-            ->putJson('api/images/' . $image_id, ['swapping_image_id' => $swapping_image->id])
+            ->putJson('api/images/' . $image_id, ['oldIndex' => 0, 'newIndex' => 1])
             ->assertStatus(200);
         
         $image = Image::where(['original' => 'avatar.jpg'])->first();

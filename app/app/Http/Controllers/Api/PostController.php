@@ -184,6 +184,16 @@ class PostController extends Controller
      *     tags={"Posts"},
      *     summary="Update post",
      *     description="Update existing post",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="Post ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
      *     @OA\RequestBody(
      *         @OA\JsonContent(
      *             ref="#/components/schemas/PostOnly"

@@ -32,7 +32,7 @@ if (el) {
         newIndex: evt.newIndex,
       })
       .then(response => {
-        console.log('Ok');
+        console.log(response);
       })
       .catch(err => {
         console.log(err);

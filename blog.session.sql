@@ -1,1 +1,1 @@
-update images set addons='{"caption": "test", "age":30}'
+drop table post_tags;

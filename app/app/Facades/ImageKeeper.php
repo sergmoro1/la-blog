@@ -34,7 +34,7 @@ class ImageKeeper
     {
         $post = $request->all();
 
-        if (isset($post['imageable_type']) && isset($post['imageable_id'])) {
+        if ($request->has(['imageable_type', 'imageable_id'])) {
             $imageable_type = $post['imageable_type'];
             $imageable_id = $post['imageable_id'];
         } else {

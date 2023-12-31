@@ -18,9 +18,31 @@ class ImageController extends Controller
      *     summary="Save image",
      *     description="Save just uploaded image",
      *     @OA\RequestBody(
-     *         @OA\JsonContent(
-     *             ref="#/components/schemas/Image"
+     *         required=true,
+     *         @OA\Parameter(
+     *             name="imageable_id",
+     *             description="ID in the model to which the image belongs",
+     *             @OA\Schema(
+     *                type="integer",
+     *                format="int32"
+     *             )
      *         ),
+     *         @OA\Parameter(
+     *             name="imageable_type",
+     *             description="class of a model to which the image belong",
+     *             @OA\Schema(
+     *                type="string",
+     *                example="App\Models\Post"
+     *             )
+     *         ),
+     *         @OA\Parameter(
+     *             name="file_input",
+     *             description="uploaded image",
+     *             @OA\Schema(
+     *                 type="string",
+     *                 format="binary"
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -60,10 +82,44 @@ class ImageController extends Controller
      *     tags={"Images"},
      *     summary="Update image",
      *     description="Update existing image",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         description="Image ID",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int32"
+     *         )
+     *     ),
      *     @OA\RequestBody(
-     *         @OA\JsonContent(
-     *             ref="#/components/schemas/Image"
+     *         @OA\Parameter(
+     *             name="oldIndex",
+     *             description="image position before drag & drop, from 0 to the number of images - 1",
+     *             required=true,
+     *             @OA\Schema(
+     *                 type="integer",
+     *                 format="int32"
+     *             )
      *         ),
+     *         @OA\Parameter(
+     *             name="newIndex",
+     *             description="image position after drag & drop, from 0 to the number of images - 1",
+     *             required=true,
+     *             @OA\Schema(
+     *                 type="integer",
+     *                 format="int32"
+     *             )
+     *         ),
+     *         @OA\Parameter(
+     *             name="addons",
+     *             description="json string with additional parameters",
+     *             required=true,
+     *             @OA\Schema(
+     *                 type="string",
+     *                 example="{'caption': 'image description', 'year': '2023', 'category': 'office'}"
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -80,10 +136,42 @@ class ImageController extends Controller
      *                 example="Image updated."
      *             )
      *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Wrong parameters",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example="false"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Only the 'position' and 'addons' fields can be updated for images."
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Entity not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example="false"
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Not found."
+     *             )
+     *         )
      *     )
      * )
      * 
-     * Update the specified resource in storage.
+     * Update the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

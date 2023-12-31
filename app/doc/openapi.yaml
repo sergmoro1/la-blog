@@ -10,9 +10,98 @@ info:
   version: 1.0.0
 servers:
   -
-    url: 'http://blog.local'
+    url: 'http://localhost:8080'
     description: 'Blog API Server'
 paths:
+  /api/images:
+    put:
+      tags:
+        - Images
+      summary: 'Update image'
+      description: 'Update existing image'
+      operationId: updateImage
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Image ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody: {  }
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Image updated.' }
+                type: object
+        '403':
+          description: 'Wrong parameters'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'false' }
+                  message: { type: string, example: 'Only the ''position'' and ''addons'' fields can be updated for images.' }
+                type: object
+        '404':
+          description: 'Entity not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'false' }
+                  message: { type: string, example: 'Not found.' }
+                type: object
+    post:
+      tags:
+        - Images
+      summary: 'Save image'
+      description: 'Save just uploaded image'
+      operationId: createImage
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Image saved.' }
+                type: object
+  '/api/images/{id}':
+    delete:
+      tags:
+        - Images
+      summary: 'Delete image'
+      description: 'Delete image by ID'
+      operationId: deleteImage
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Image ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'Image deleted.' }
+                type: object
   /api/posts:
     get:
       tags:
@@ -22,15 +111,20 @@ paths:
       operationId: indexPost
       parameters:
         -
-          name: 'tags[]'
+          name: search
           in: query
-          description: 'tag to filter by'
+          description: 'search string to filter by'
           required: false
-          style: form
           schema:
-            type: array
-            items:
-              type: string
+            type: string
+        -
+          name: offset
+          in: query
+          description: 'offset from the beginning of the dataset'
+          required: false
+          schema:
+            type: integer
+            format: int32
         -
           name: limit
           in: query
@@ -54,6 +148,15 @@ paths:
       summary: 'Update post'
       description: 'Update existing post'
       operationId: updatePost
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'Post ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
       requestBody:
         content:
           application/json:
@@ -260,6 +363,128 @@ paths:
                   success: { type: boolean, example: 'true' }
                   message: { type: string, example: 'Tag deleted.' }
                 type: object
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: 'Get list of users'
+      description: 'Returns list of users'
+      operationId: indexUser
+      parameters:
+        -
+          name: search
+          in: query
+          description: 'search string'
+          required: false
+          schema:
+            type: string
+        -
+          name: limit
+          in: query
+          description: 'maximum number of results to return'
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - Users
+      summary: 'Update user'
+      description: 'Update existing user'
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserOnly'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'User updated.' }
+                type: object
+    post:
+      tags:
+        - Users
+      summary: 'Create user'
+      description: 'Create new user'
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserOnly'
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'User created.' }
+                type: object
+  '/api/users/{id}':
+    get:
+      tags:
+        - Users
+      summary: 'Get user'
+      description: 'Get user by ID'
+      operationId: getUser
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'User ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - Users
+      summary: 'Delete user'
+      description: 'Delete user by ID'
+      operationId: deleteUser
+      parameters:
+        -
+          name: id
+          in: query
+          description: 'User ID'
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: 'true' }
+                  message: { type: string, example: 'User deleted.' }
+                type: object
 components:
   schemas:
     PostOnly:
@@ -317,6 +542,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TagOnly'
+        Tags_to_str:
+          type: string
+          example: 'news, sport'
         created_at:
           type: string
           format: date-time
@@ -351,6 +579,58 @@ components:
         name:
           type: string
           example: php
+        Posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostOnly'
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+      type: object
+    UserOnly:
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Alex
+        email:
+          type: email
+          example: alex@mail.ru
+        email_verified_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T17:29:00+0300'
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T16:31:00+0300'
+      type: object
+    User:
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Alex
+        email:
+          type: string
+          example: alex@mail.ru
+        email_verified_at:
+          type: string
+          format: date-time
+          example: '2022-07-04T17:29:00+0300'
         Posts:
           type: array
           items:

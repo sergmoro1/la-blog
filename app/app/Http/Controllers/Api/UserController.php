@@ -46,7 +46,7 @@ class UserController extends Controller
      *         description="Successful operation",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Tag")
+     *             @OA\Items(ref="#/components/schemas/User")
      *         )
      *     )
      * )
@@ -95,7 +95,7 @@ class UserController extends Controller
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
-     *                 example="Tag created."
+     *                 example="User created."
      *             )
      *         )
      *     )

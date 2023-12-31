@@ -49,7 +49,7 @@ window.imageLine = {
     .then(response => {
       this.buttonsSwitch(true);
     })
-    .catch(error => {
+    .catch(err => {
       console.log(err);
     });
   },
