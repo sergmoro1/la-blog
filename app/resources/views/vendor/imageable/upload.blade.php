@@ -1,10 +1,10 @@
 <div class='card'>
   <div class="card-content">
     <div class='field'>
-      <label class='label' for='file_input'>{{ __('Images') }}</label>
+      <label class='label' for='file_input'>{{ __('imageable::messages.images') }}</label>
       <div class='control'>
         <label class='button blue fileinput-button' for='file_input'>
-          {{ __('Choose a file') }}
+          {{ __('imageable::messages.choose_a_file') }}
           <input class='input' type='file' name='file_input' id='file_input' multiple>
         </label>
       </div>
@@ -16,16 +16,19 @@
     <div id='uploads'>
       <ul class='table'>
         @foreach ($model->images as $image)
-          <li id={{$image->id}}>
+          <li id='{{$image->id}}'>
             <span class='block'>
               <img src='{{$image->getThumbnailUrl()}}' data-img='{{$image->getUrl()}}'>
-              @include('livewire.upload.tools')
+              @include('vendor.imageable.line.tools')
             </span>
             
-            @include('livewire.upload.line', ['id' => $image->id, 'addons' => json_decode($image->addons)])
+            @include('vendor.imageable.line.' . $model->getAddonFieldsView(), [
+              'id' => $image->id, 
+              'addons' => json_decode($image->addons)
+            ])
 
             <span class='buttons'>
-              @include('livewire.upload.buttons')
+              @include('vendor.imageable.line.buttons')
             </span>
           </li>
         @endforeach

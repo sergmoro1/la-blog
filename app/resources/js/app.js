@@ -7,7 +7,7 @@ import './bootstrap';
 window.$ = window.jQuery = require('jquery');
 
 require('datatables.net-dt');
-require('./post/handler.datatables.js');
+require('./post/datatables.js');
 
 import SimpleMDE from 'simplemde/dist/simplemde.min.js';
 let el = document.getElementById("content");
@@ -19,10 +19,9 @@ require('select2');
 require('./post/select2.js');
 
 require('jquery-simple-upload/simpleUpload');
-require('./simpleUpload/handler.upload.js');
+require('./simpleUpload.js');
 
 import Sortable from 'sortablejs';
-
 el = document.querySelector('ul.table');
 if (el) {
   var sortable = Sortable.create(el, {
