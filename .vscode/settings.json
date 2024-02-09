@@ -14,5 +14,6 @@
             "username": "admin",
             "password": "splin16"
         }
-    ]
+    ],
+    "phpCodeSniffer.exec.linux": "phpcs"
 }
