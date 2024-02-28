@@ -28,7 +28,4 @@ Route::group(['middleware' => config('app.auth-method')], function () {
     Route::resources([
         'posts' => PostController::class,
     ]);
-    //Route::resources([
-        //'images' => ImageController::class,
-    //]);
 });

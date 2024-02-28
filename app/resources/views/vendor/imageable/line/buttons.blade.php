@@ -1,28 +1,4 @@
-<a href="javascript:;">
-    <button  class="button small green" id="btn-edit" type="button"
-        title="{{ __('imageable::messages.edit_image') }}"
-        onclick="imageLine.edit(this);">
-        <span class="material-icons">edit</span>
-    </button>
-</a>
-<a href="javascript:;">
-    <button  class="button small red" id="btn-delete" type="button"
-        title="{{ __('imageable::messages.delete_image') }}"
-        onclick="imageLine.delete(this);">
-        <span class="material-icons">delete</span>
-    </button>
-</a>
-<a href="javascript:;">
-    <button class="button small blue inactive" id="btn-save" type="button"
-        title="{{ __('imageable::messages.save_image') }}"
-        onclick="imageLine.save(this);">
-        <span class="material-icons">save</span>
-    </button>
-</a>
-<a href="javascript:;">
-    <button class="button small inactive" id="btn-cancel" type="button"
-        title="{{ __('imageable::messages.undo_editing') }}"
-        onclick="imageLine.cancel(this);">
-        <span class="material-icons">cancel</span>
-    </button>
-</a>
+<x-imageable::button action="edit" class="bg-blue-500 hover:bg-blue-700"/>
+<x-imageable::button action="delete" class="bg-red-500 hover:bg-red-700"/>
+<x-imageable::button action="save" class="bg-green-500 hover:bg-green-700 hidden"/>
+<x-imageable::button action="cancel" class="bg-yellow-500 hover:bg-yellow-700 hidden"/>

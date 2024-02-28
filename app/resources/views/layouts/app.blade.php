@@ -12,6 +12,7 @@
         {{ $css }}
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
+        <!--<script src="https://cdn.tailwindcss.com"></script>-->
     </head>
     <body>
         <div id="app">

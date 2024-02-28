@@ -19,10 +19,10 @@ require('select2');
 require('./post/select2.js');
 
 require('jquery-simple-upload/simpleUpload');
-require('./simpleUpload.js');
+require('./imageable/simpleUpload.js');
 
 import Sortable from 'sortablejs';
-el = document.querySelector('ul.table');
+el = document.querySelector('#upload ul.table');
 if (el) {
   var sortable = Sortable.create(el, {
 	  onEnd: function (evt) {
@@ -30,12 +30,8 @@ if (el) {
         oldIndex: evt.oldIndex,
         newIndex: evt.newIndex,
       })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      .then(response => { console.log(response); })
+      .catch(err => { console.log(err); });
 	  },    
   });
 }
