@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\JsonResponse;
 use Yiisoft\Access\AccessCheckerInterface;
 use OpenApi\Annotations as OA;
 
@@ -51,9 +52,9 @@ class Controller extends BaseController
     /**
      * Prepare NotFound response.
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\JsonResponse
      */
-    protected function responseNotFound(): Response
+    protected function responseNotFound(): JsonResponse
     {
         return response()->json([
             'success' => false,
