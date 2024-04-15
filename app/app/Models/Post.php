@@ -35,6 +35,13 @@ class Post extends Model
     public const STATUS_ARCHIVED = 'archived';
 
     /**
+     * Limit on the number of images uploaded.
+     * 
+     * @var int
+    */
+    protected $uploadImageLimit = 0;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var string[]

@@ -1,5 +1,5 @@
 <div class='container'>
-  <div class="max-w p-6 bg-white border border-gray-100 rounded">
+  <div class="max-w px-6 pt-6 bg-white border border-gray-100 rounded">
     <label class='label' for='file_input'>{{ __('imageable::messages.images') }}</label></p>
     <label class='button blue fileinput-button' for='file_input'>
       {{ __('imageable::messages.choose_a_file') }}
@@ -28,3 +28,6 @@
     </div>
   </div>
 </div>
+<x-slot name="scripts">
+  <script>var uploadOptions = <?= $model->uploadOptions($limit) ?>;</script>
+</x-slot>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use App\Models\PostTag;
 use App\Http\Requests\PostRequest;
+use Yiisoft\Access\AccessCheckerInterface;
 
 class PostController extends Controller
 {
@@ -17,8 +18,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() //(AccessCheckerInterface $accessChecker)
     {
+        //$this->checkAccess($accessChecker, 'indexPost');
+
         return view('post', ['action' => 'index', 'buttons' => Post::dtButtons()]);
     }
 
@@ -29,6 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->checkAccess('createPost');
+
         $post = new Post();
         $post->status = Post::STATUS_DRAFT;
 
@@ -64,12 +69,15 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $post = Post::find($id);
+
+        $this->checkAccess('updatePost', ['user_id' => $post->user_id]);
+        
         return view('post', ['post' => $post, 'action' => 'edit']);
     }
 

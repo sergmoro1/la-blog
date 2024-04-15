@@ -14,6 +14,7 @@ use App\Models\Post;
  *
  * @param integer   $id
  * @param string    $name
+ * @param integer   $role
  * @param string    $email
  * @param timestamp $email_verified_at
  * @param string    $password
@@ -27,6 +28,14 @@ use App\Models\Post;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    const ROLE_ADMIN  = 1;
+    const ROLE_AUTHOR = 2;
+    
+    const ROLE_CAPTION = [
+        self::ROLE_ADMIN => 'admin',
+        self::ROLE_AUTHOR => 'author',
+    ];
 
     /**
      * The attributes that are mass assignable.
