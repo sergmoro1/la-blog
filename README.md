@@ -29,5 +29,12 @@ make shell-cli
 # php artisan test
 ```
 
+## Swagger
+Генерация файла [swagger](https://zircote.github.io/swagger-php/) определений API
+```
+./vendor/bin/openapi app -o doc/openapi.yaml
+```
+Просмотр по адресу - http://your-site.local:8080.
+
 ## Настройка IDE VSCode
 В проекте используется IDE `VSCode` и отладчик `xDebug`, `Docker` и `Laravel`. Как связать все вместе можно прочитать в каталоге [.vscode](https://github.com/sergmoro1/la-blog/tree/master/.vscode "VSCode + xDebug + Docker + Laravel") проекта.

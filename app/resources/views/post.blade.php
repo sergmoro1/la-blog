@@ -53,9 +53,6 @@
       @if ($action == 'index')
         <script>var dtButtons = <?= $buttons ?>;</script>
       @endif
-      @if (in_array($action, ['create', 'edit']))
-        <script>var uploadOptions = <?= $post->uploadOptions() ?>;</script>
-      @endif
     </x-slot>
     @if ($action == 'index')
       @include('post.index')

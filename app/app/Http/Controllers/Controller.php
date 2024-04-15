@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Yiisoft\Access\AccessCheckerInterface;
 use OpenApi\Annotations as OA;
 
 /**
@@ -40,15 +41,37 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    private $accessChecker;
+
+    public function __construct(AccessCheckerInterface $accessChecker)
+    { 
+        $this->accessChecker = $accessChecker;
+    }
+
     /**
      * Prepare NotFound response.
      *
      * @return \Illuminate\Http\Response
      */
-    protected function responseNotFound() {
+    protected function responseNotFound(): Response
+    {
         return response()->json([
             'success' => false,
             'message' => 'Not found.', 
         ], 404);
+    }
+
+    /**
+     * Checking the permission to perform the action.
+     * 
+     * @param string $action
+     * @param array $params
+     */
+    protected function checkAccess(string $action, $params = [])
+    {
+        $userId = auth()->id();
+        if (!$this->accessChecker->userHasPermission($userId, $action, $params)) {
+            abort(403, 'Access denied');
+        }
     }
 }

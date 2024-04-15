@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./imageable/upload.css";
+
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 *,
 ::after,
@@ -1876,11 +1878,9 @@ footer {
 }
 
 /*! Addition CSS */
-ul.pagination li{
-  display:inline!important;
+ul.pagination li {
+    display: inline!important;
 }
 
 @import url('./main.css');
 @import url('./select2.css');
-@import url('./fileinput.css');
-@import url('./uploads.css');

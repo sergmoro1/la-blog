@@ -70,7 +70,7 @@
   </div>
   
   <div class="grid grid-cols-1 mb-6">
-    <livewire:upload :model="$post"/>
+    <x-imageable-upload :model="$post"/>
   </div>
   
   <div class="grid grid-cols-1 mb-6">

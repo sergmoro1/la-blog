@@ -18,4 +18,4 @@
     </div>
   </section>
   <div id="modal-show" class="modal"></div>
-  <livewire:alert-modal-js/>
+  <x-post.alert/>

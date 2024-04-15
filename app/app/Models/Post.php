@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Traits\HasPageChecker;
-use App\Traits\HasStorage;
+use Sergmoro1\Imageable\Traits\HasStorage;
+use Sergmoro1\Imageable\Traits\HasImages;
 
 /**
  * Post model class
@@ -24,15 +25,21 @@ use App\Traits\HasStorage;
  * @property User $user
  * @property Tag[] $tags
  * @property Like[] $likes
- * @property Image[] $images
  */
 class Post extends Model
 {
-    use HasFactory, HasPageChecker, HasStorage;
+    use HasFactory, HasPageChecker, HasStorage, HasImages;
     
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PUBLISHED = 'published';
     public const STATUS_ARCHIVED = 'archived';
+
+    /**
+     * Limit on the number of images uploaded.
+     * 
+     * @var int
+    */
+    protected $uploadImageLimit = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -69,12 +76,15 @@ class Post extends Model
         5 => 'created_at',
     ];
 
-    protected $addonsDefaults = [
-        'caption' => '',
-        'year' => '',
-        'category' => 'home',
-    ];
-    
+    public function __construct(array $attributes = []) {
+        parent::__construct($attributes);
+        $this->setAddonDefaults([
+            'year' => '',
+            'category' => 'home',
+            'caption' => '',
+        ]);
+    }
+
     /**
      * Get the owner of this post.
      *
@@ -118,14 +128,6 @@ class Post extends Model
     }
 
     /**
-     * Get the images of this post.
-     */
-    public function images()
-    {
-        return $this->morphMany(Image::class, 'imageable')->orderBy('position');
-    }
-
-    /**
      * Prepare action buttons for datatables.js plugin.
      * 
      * @return string JSON array with buttons
@@ -153,32 +155,6 @@ class Post extends Model
         ]);
     }
   
-    /**
-     * Prepare options for uploading files.
-     * 
-     * @return string JSON array with uploading options
-     */
-    public function uploadOptions(): string
-    {
-        return json_encode([
-            'data' => [
-                'imageable_type' => get_class(), 
-                'imageable_id' => $this->id,
-            ],
-            'image' => [
-                'tools' => view('livewire.upload.tools')->render(),
-                'line' => view('livewire.upload.line', ['defaults' => $this->addonsDefaults])->render(),
-                'buttons' => view('livewire.upload.buttons')->render(),
-            ],
-            'fields' => array_keys($this->addonsDefaults),
-        ]);
-    }
-    
-    public function getAddonsDefaults()
-    {
-        return $this->addonsDefaults;
-    }
-    
     /**
      * Convert markdown to html
      *

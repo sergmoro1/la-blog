@@ -58,16 +58,6 @@ Array.from(document.getElementsByClassName('--jb-notification-dismiss')).forEach
   });
 });
 
-/* Copy text to clipboard */
-async function copyTextToClipboard(text) {
-  try {
-      await navigator.clipboard.writeText(text);
-      console.log('Text copied to clipboard');
-  } catch (err) {
-      console.error('Error in copying text: ', err);
-  }
-}
-
 /* Authorization header for all requests */
 axios.defaults.headers = {
   'Content-Type': 'application/json',

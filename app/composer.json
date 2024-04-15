@@ -14,6 +14,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.10",
+        "yiisoft/rbac": "^2.0",
+        "yiisoft/rbac-php": "^2.0",
+        "yiisoft/rbac-rules-container": "^2.1",
         "zircote/swagger-php": "^4.4"
     },
     "require-dev": {
@@ -23,15 +26,24 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Sergmoro1\\Imageable\\": "packages/sergmoro1/laravel-imageable/src"
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/sergmoro1/laravel-imageable/src",
+            "symlink": true
+        }
+    ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

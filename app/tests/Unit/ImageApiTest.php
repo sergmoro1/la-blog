@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Sequence;
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Post;
-use App\Models\Image;
+use Sergmoro1\Imageable\Models\Image;
 
 class ImageApiTest extends BlogTestCase
 {

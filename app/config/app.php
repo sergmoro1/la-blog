@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Sergmoro1\Imageable\ImageableServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -233,6 +235,26 @@ return [
     ],
     
     'posts_per_page' => env('POSTS_PER_PAGE', 3),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application authentication method
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the method of authorization for imageable actions.
+    |
+    */
+
+    'auth-method' => env('APP_AUTH', 'auth.basic.once'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application credentials
+    |--------------------------------------------------------------------------
+    |
+    | This value define application credentials.
+    |
+    */
 
     'credentials' => [
         'basic' => ('Basic ' . env('APP_BASIC')),
